@@ -1,0 +1,7 @@
+obj
+*.swp
+*.o
+*.d
+main
+test-main
+catch.hpp
