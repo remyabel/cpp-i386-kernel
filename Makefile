@@ -9,10 +9,19 @@ OBJ := $(patsubst src/%.cpp, obj/%.o, $(SRC:.cpp=.o))
 TESTSRC := $(wildcard test/*.cpp)
 TESTOBJ := $(patsubst test/%.cpp, test/%.o, $(TESTSRC:.cpp=.o))
 
-all: main
+all: main iso qemu
 
 main: $(OBJ) obj/boot.o
 	$(CXX) -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib $^ -lgcc
+
+iso:
+	mkdir -p isodir/boot/grub
+	cp myos.bin isodir/boot/myos.bin
+	cp grub.cfg isodir/boot/grub/grub.cfg
+	grub2-mkrescue -o myos.iso isodir
+
+qemu:
+	qemu-system-i386 -cdrom myos.iso
 
 test: $(TESTOBJ) $(filter-out obj/main.o, $(OBJ))
 	$(CXX) $(CXXFLAGS) $^ -o test/test-main
