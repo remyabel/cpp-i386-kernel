@@ -1,21 +1,25 @@
-CXX = g++
-CXXFLAGS = -Wall -O2 -pedantic
+CXX = i686-elf-g++
+AS = i686-elf-as
+CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti
 OPTS = -MMD -MP -Iinclude
 
 SRC := $(wildcard src/*.cpp)
-OBJ := $(patsubst src/%, obj/%, $(SRC:.cpp=.o))
+OBJ := $(patsubst src/%.cpp, obj/%.o, $(SRC:.cpp=.o))
 
 TESTSRC := $(wildcard test/*.cpp)
 TESTOBJ := $(patsubst test/%.cpp, test/%.o, $(TESTSRC:.cpp=.o))
 
-all: main test
+all: main
 
-main: $(OBJ)
-	$(CXX) $(CXXFLAGS) $^ -o main
+main: $(OBJ) obj/boot.o
+	$(CXX) -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib $^ -lgcc
 
 test: $(TESTOBJ) $(filter-out obj/main.o, $(OBJ))
 	$(CXX) $(CXXFLAGS) $^ -o test/test-main
 	test/test-main -r compact
+
+obj/boot.o: src/boot.s
+	$(AS) $< -o $@
 
 obj/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) $(OPTS) -c $< -o $@
