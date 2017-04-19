@@ -4,7 +4,7 @@ CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti
 OPTS = -MMD -MP -Iinclude
 
 SRC := $(wildcard src/*.cpp)
-OBJ := $(patsubst src/%.cpp, obj/%.o, $(SRC:.cpp=.o))
+OBJ := $(patsubst src/%, obj/%, $(SRC:.cpp=.o))
 
 TESTSRC := $(wildcard test/*.cpp)
 TESTOBJ := $(patsubst test/%.cpp, test/%.o, $(TESTSRC:.cpp=.o))
@@ -37,7 +37,7 @@ test/%.o: test/%.cpp
 	$(CXX) $(CXXFLAGS) $(OPTS) -c $< -o $@
 
 clean:
-	rm -f obj/* main test/test-main test/*.o test/*.d
+	rm -rf obj/* main test/test-main test/*.o test/*.d myos* isodir/
 
 -include $(OBJ:%.o=%.d)
 -include $(TESTOBJ:%.o=%.d)
