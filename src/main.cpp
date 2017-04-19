@@ -29,7 +29,7 @@ color make_color(color fg, color bg) {
 }
  
 uint16_t make_colored_char(unsigned char uc, color c) {
-	return (uint16_t) uc | static_cast<uint16_t>(c) << 8;
+	return uc | static_cast<uint16_t>(c) << 8;
 }
  
 size_t strlen(const char* str) {
@@ -51,7 +51,7 @@ void terminal_initialize(void) {
 	terminal_row = 0;
 	terminal_column = 0;
 	terminal_color = make_color(color::light_grey, color::black);
-	terminal_buffer = (uint16_t*) 0xB8000;
+	terminal_buffer = reinterpret_cast<uint16_t*>(0xB8000);
 	for (size_t y = 0; y < VGA_HEIGHT; y++) {
 		for (size_t x = 0; x < VGA_WIDTH; x++) {
 			const size_t index = y * VGA_WIDTH + x;
