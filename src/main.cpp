@@ -1,6 +1,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <string.hpp>
+
 /* Hardware text mode color constants. */
 enum class color : uint8_t {
 	black = 0,
@@ -31,14 +33,7 @@ color make_color(color fg, color bg) {
 uint16_t make_colored_char(unsigned char uc, color c) {
 	return uc | static_cast<uint16_t>(c) << 8;
 }
- 
-size_t strlen(const char* str) {
-	size_t len = 0;
-	while (str[len])
-		len++;
-	return len;
-}
- 
+
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
  
