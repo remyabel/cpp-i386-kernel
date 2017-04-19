@@ -9,7 +9,7 @@ OBJ := $(patsubst src/%, obj/%, $(SRC:.cpp=.o))
 TESTSRC := $(wildcard test/*.cpp)
 TESTOBJ := $(patsubst test/%.cpp, test/%.o, $(TESTSRC:.cpp=.o))
 
-all: main iso qemu
+all: main test iso qemu
 
 main: $(OBJ) obj/boot.o
 	$(CXX) -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib $^ -lgcc
@@ -24,7 +24,7 @@ qemu:
 	qemu-system-i386 -cdrom myos.iso
 
 test: $(TESTOBJ) $(filter-out obj/main.o, $(OBJ))
-	$(CXX) $(CXXFLAGS) $^ -o test/test-main
+	g++ -O2 $^ -o test/test-main
 	test/test-main -r compact
 
 obj/boot.o: src/boot.s
@@ -34,7 +34,7 @@ obj/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) $(OPTS) -c $< -o $@
 
 test/%.o: test/%.cpp
-	$(CXX) $(CXXFLAGS) $(OPTS) -c $< -o $@
+	g++ -O2 -Wall -Wextra -pedantic $(OPTS) -c $< -o $@
 
 clean:
 	rm -rf obj/* main test/test-main test/*.o test/*.d myos* isodir/
