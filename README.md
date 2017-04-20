@@ -22,7 +22,8 @@ This project spawned from [OSDev Bare Bones tutorial](http://wiki.osdev.org/Bare
 - [ ] Implement `span` (read/write view) for video buffer
 - [ ] Implement `memcpy` and other useful C library functions
 - [ ] Integrate TTF font (using tool that converts the font to a C file)
-- [ ] Implement iterators; then add an iterator interface to Terminal/spans
+- [x] Implement iterators (for random access iterator)
+    - [ ] then add an iterator interface to Terminal/spans
 
 The build system I am using is GCC 6.3.0 with Binutils 2.28
 
