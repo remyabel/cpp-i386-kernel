@@ -65,4 +65,18 @@ constexpr typename iterator_traits<InputIterator>::difference_type
         return (last - first);
 }
 
+template <class InputIterator>
+constexpr InputIterator next(InputIterator x,
+        typename iterator_traits<InputIterator>::difference_type n = 1) {
+    advance(x, n);
+    return x;
+}
+
+template <class BidirectionalIterator>
+constexpr BidirectionalIterator prev(BidirectionalIterator x,
+        typename iterator_traits<BidirectionalIterator>::difference_type n = 1) {
+    advance(x, -n);
+    return x;
+}
+
 #endif

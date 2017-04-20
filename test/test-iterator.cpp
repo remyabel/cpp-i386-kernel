@@ -15,4 +15,7 @@ TEST_CASE("iterator operations for random access iterator", "[iterator.rai]") {
 
     REQUIRE(distance(s.data(), non_owning_p) == 3);
     REQUIRE(*non_owning_p == 'l');
+
+    REQUIRE(*next(non_owning_p) == 'o');
+    REQUIRE(*prev(non_owning_p) == 'l');
 }
