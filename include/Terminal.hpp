@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #include <string.hpp>
+#include <basic_string_view.hpp>
 
 enum class color : uint8_t {
 	black = 0,
@@ -77,14 +78,10 @@ public:
         }
     }
     
-    void write(const char* data, size_t size) {
-        for (size_t i = 0; i < size; i++) {
+    void write(string_view data) {
+        for (size_t i = 0; i < data.length(); i++) {
             put_char(data[i]);
         }
-    }
-    
-    void write_string(const char* data) {
-        write(data, strlen(data));
     }
 };
 

@@ -8,5 +8,5 @@
 extern "C" /* Use C linkage for kernel_main. */
 void kernel_main() {
     Terminal terminal;
-	terminal.write_string("Hello, kernel World!\n");
+	terminal.write("Hello, kernel World!\n");
 }

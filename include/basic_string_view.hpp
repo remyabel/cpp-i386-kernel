@@ -8,11 +8,12 @@
 template <class charT, class traits = char_traits<charT>>
 class basic_string_view {
 public:
-    using traits_type   = traits;
-    using value_type    = charT;
-    using pointer       = value_type*;
-    using const_pointer = const value_type*;
-    using size_type     = size_t;
+    using traits_type     = traits;
+    using value_type      = charT;
+    using pointer         = value_type*;
+    using const_pointer   = const value_type*;
+    using const_reference = const value_type&;
+    using size_type       = size_t;
 
     static constexpr size_type npos = size_type(-1);
 
@@ -22,6 +23,12 @@ public:
     constexpr basic_string_view& operator=(const basic_string_view&) noexcept = default;
     constexpr basic_string_view(const charT *str);
     constexpr basic_string_view(const charT *str, size_type len);
+
+    // [string.view.capacity]
+    constexpr size_type length() const noexcept;
+
+    // [string.view.access]
+    constexpr const_reference operator[](size_type pos) const;
 };
 
 using string_view = basic_string_view<char>;
