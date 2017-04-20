@@ -18,17 +18,33 @@ public:
     static constexpr size_type npos = size_type(-1);
 
     // [string.view.cons]
-    constexpr basic_string_view() noexcept;
+    constexpr basic_string_view() noexcept
+        : size_(0), data_(nullptr) { }
+
     constexpr basic_string_view(const basic_string_view&) noexcept = default;
     constexpr basic_string_view& operator=(const basic_string_view&) noexcept = default;
-    constexpr basic_string_view(const charT *str);
-    constexpr basic_string_view(const charT *str, size_type len);
+
+    constexpr basic_string_view(const charT *str)
+        : size_(traits_type::length(str)), data_(str) { }
+    constexpr basic_string_view(const charT *str, size_type len)
+        : size_(len), data_(str) { }
 
     // [string.view.capacity]
-    constexpr size_type length() const noexcept;
+    constexpr size_type length() const noexcept {
+        return size_;
+    }
 
     // [string.view.access]
-    constexpr const_reference operator[](size_type pos) const;
+    constexpr const_reference operator[](size_type pos) const {
+        return data_[pos];
+    }
+
+    constexpr const_pointer data() const noexcept {
+        return data_;
+    }   
+private:
+    size_type size_;
+    const_pointer data_;
 };
 
 using string_view = basic_string_view<char>;
