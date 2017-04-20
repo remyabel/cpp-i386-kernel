@@ -42,4 +42,27 @@ struct iterator_traits<const T*> {
     using iterator_category = random_access_iterator_tag;
 };
 
+// [iterator.operations]
+template <class InputIterator, class Distance>
+constexpr void advance(InputIterator& i, Distance n) {
+    return advance(i, n, typename iterator_traits<InputIterator>::iterator_category());
+}
+
+template <class InputIterator, class Distance>
+constexpr void advance(InputIterator& i, Distance n, random_access_iterator_tag) {
+    i += n;
+}
+
+template <class InputIterator>
+constexpr typename iterator_traits<InputIterator>::difference_type
+    distance(InputIterator first, InputIterator last) {
+        return distance(first, last, typename iterator_traits<InputIterator>::iterator_category());
+}
+
+template <class InputIterator>
+constexpr typename iterator_traits<InputIterator>::difference_type
+    distance(InputIterator first, InputIterator last, random_access_iterator_tag) {
+        return (last - first);
+}
+
 #endif
