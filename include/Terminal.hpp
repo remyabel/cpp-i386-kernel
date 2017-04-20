@@ -25,6 +25,16 @@ enum class color : uint8_t {
 	light_brown = 14,
 	white = 15,
 };
+
+struct colored_char {
+    char code_byte;
+    color attribute;
+
+    operator uint16_t() const {
+        return (code_byte |
+            static_cast<uint16_t>(attribute) << 8);
+    }
+};
  
 class Terminal {
     size_t row_;
@@ -39,8 +49,7 @@ public:
     { 
         for (auto y = 0u; y < rows; ++y) {
             for (auto x = 0u; x < columns; ++x) {
-                const auto index = y * columns + x;
-                buffer_[index] = make_colored_char(' ', color_);
+                write_char_at(' ', color::black, x, y);
             }
         }
     }
@@ -55,8 +64,8 @@ public:
             );
     }
     
-    static uint16_t make_colored_char(unsigned char uc, color c) {
-        return uc | static_cast<uint16_t>(c) << 8;
+    static colored_char make_colored_char(char code_byte, color attribute) {
+        return { code_byte, attribute };
     }
 
     void set_color(color c) {
