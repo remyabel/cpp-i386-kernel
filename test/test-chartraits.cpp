@@ -1,0 +1,16 @@
+#include "catch.hpp"
+
+#include <char_traits.hpp>
+
+TEST_CASE("char_traits has correct behavior for char", "[char_traits]") {
+    REQUIRE(char_traits<char>::eq('a', 'a'));
+    REQUIRE(!char_traits<char>::eq('b', 'a'));
+
+    REQUIRE(char_traits<char>::lt('a', 'b'));
+    REQUIRE(!char_traits<char>::lt('a', 'a'));
+    REQUIRE(!char_traits<char>::lt('b', 'a'));
+
+    REQUIRE(char_traits<char>::length("") == 0);
+    REQUIRE(char_traits<char>::length("hello") == 5);
+    REQUIRE(char_traits<char>::length("test\0yeah") == 4);
+}
