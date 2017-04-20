@@ -35,6 +35,24 @@ public:
         }
         return (p - s);
     }
+
+    static constexpr int compare(const char_type *s1, const char_type *s2, size_t count) {
+        if (count == 0) {
+            return 0;
+        }
+
+        for (; count; --count, ++s1, ++s2) {
+            if (lt(*s1, *s2)) {
+                return -1;
+            }
+
+            if (lt(*s2, *s1)) {
+                return 1;
+            }
+        }
+
+        return 0;
+    }
 };
 
 template class char_traits<char>;
