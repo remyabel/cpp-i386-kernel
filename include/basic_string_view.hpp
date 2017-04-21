@@ -61,6 +61,10 @@ public:
         return size_;
     }
 
+    constexpr bool empty() const noexcept {
+        return size_ == 0;
+    }
+
     // [string.view.access]
     constexpr const_reference operator[](size_type pos) const {
         return data_[pos];

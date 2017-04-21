@@ -42,6 +42,16 @@ TEST_CASE("basic_string_view interface", "[basic_string_view.interface]") {
         REQUIRE(s.begin() != s2.begin());
     }
 
+    string_view empty;
+
+    SECTION("capacity") {
+        REQUIRE(!s.empty());
+        REQUIRE(!s2.empty());
+
+        REQUIRE(empty.empty());
+        REQUIRE(empty.size() == 0);
+    }
+
     SECTION("access") {
         REQUIRE(s[0] == 'h');
         REQUIRE(s2[0] == 'l');
