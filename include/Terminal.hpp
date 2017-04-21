@@ -6,6 +6,7 @@
 
 #include <string.hpp>
 #include <basic_string_view.hpp>
+#include <algorithm.hpp>
 
 enum class color : uint8_t {
 	black = 0,
@@ -78,11 +79,36 @@ public:
     }
 
     void put_char(char c) {
-        write_char_at(c, color_, column_, row_);
-        if (++column_ == columns) {
+        if (c == '\n') {
             column_ = 0;
-            if (++row_ == rows) {
-                row_ = 0;
+            row_++;
+        } else {
+            write_char_at(c, color_, column_, row_);
+            column_++;
+        }
+
+        if (column_ == columns) {
+            column_ = 0;
+            ++row_;
+        }
+
+        if (row_ == rows) {
+            row_ = rows - 1;
+
+            // Copy each line upwards
+            for (auto y = 0u; y < rows; y++) {
+                auto next_line_start    = (y + 1) * columns;
+                auto next_line_end      = ((y + 1) * columns) + columns;
+                auto current_line_start = y * columns;
+
+                copy(buffer_ + next_line_start,
+                        buffer_ + next_line_end,
+                        buffer_ + current_line_start);
+            }
+
+            // Leave last row blank
+            for (auto x = 0u; x < columns; ++x) {
+                write_char_at(' ', color::black, x, rows - 1);
             }
         }
     }
