@@ -17,15 +17,28 @@ The above is a more opinionated talk that addresses the schism between the C and
 
 This project spawned from [OSDev Bare Bones tutorial](http://wiki.osdev.org/Bare_Bones), but has taken a life of its own.
 
+### Mini standard library
 - [x] Use `string_view` instead of naked `const char*`
 - [x] Put Terminal in its own class
 - [ ] Implement `span` (read/write view) for video buffer
 - [ ] Implement `memcpy` and other useful C library functions
-- [ ] Integrate TTF font (using tool that converts the font to a C file)
 - [x] Implement iterators (for random access iterator)
     - [ ] then add an iterator interface to Terminal/spans
 
-The build system I am using is GCC 6.3.0 with Binutils 2.28
+See issues for checklist on various standard library stuff (`array`, etc.)
+
+### VESA
+- [ ] Integrate TTF font (using tool that converts the font to a C file)
+
+### Kernel stuff
+- [ ] IDT
+- [ ] GDT
+- [ ] PMM
+- [ ] VMM
+
+### Build system
+
+The build system I am using is GCC 6.3.0 with Binutils 2.28 and NASM (the OSDev tutorials use GAS syntax)
 
 The C++ testing framework is [Catch](https://github.com/philsquared/Catch). 
 
