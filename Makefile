@@ -1,5 +1,5 @@
 CXX = i686-elf-g++
-AS = i686-elf-as
+AS = nasm
 CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti
 OPTS = -MMD -MP -Iinclude
 
@@ -28,7 +28,7 @@ test: $(TESTOBJ) $(filter-out obj/main.o, $(OBJ))
 	test/test-main -r compact
 
 obj/boot.o: src/boot.s
-	$(AS) $< -o $@
+	$(AS) -felf32 $< -o $@
 
 obj/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) $(OPTS) -c $< -o $@
