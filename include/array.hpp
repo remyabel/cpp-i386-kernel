@@ -19,6 +19,7 @@ struct array {
 
     value_type elems_[N];
     
+    // iterators
     constexpr iterator begin() noexcept {
         return iterator(elems_);
     }
@@ -39,10 +40,13 @@ struct array {
         return begin() == end();
     }
 
+
+    // capacity
     constexpr size_type size() const noexcept {
         return N;
     }
 
+    // element access
     constexpr T* data() noexcept {
         return elems_;
     }
