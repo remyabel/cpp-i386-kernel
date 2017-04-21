@@ -55,5 +55,11 @@ TEST_CASE("basic_string_view interface", "[basic_string_view.interface]") {
     SECTION("access") {
         REQUIRE(s[0] == 'h');
         REQUIRE(s2[0] == 'l');
+
+        REQUIRE(s.at(0) == s[0]);
+        REQUIRE(s2.at(1) == 'o');
+
+        REQUIRE(s[0] == s.front());
+        REQUIRE(s2.back() == 'g');
     }
 }

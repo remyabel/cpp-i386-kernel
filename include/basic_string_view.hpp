@@ -70,6 +70,20 @@ public:
         return data_[pos];
     }
 
+    constexpr const_reference at(size_type pos) const {
+        // TODO: throw exception
+
+        return data_[pos];
+    }
+
+    constexpr const_reference front() const {
+        return data_[0];
+    }
+
+    constexpr const_reference back() const {
+        return data_[size() - 1];
+    }
+
     constexpr const_pointer data() const noexcept {
         return data_;
     }   
