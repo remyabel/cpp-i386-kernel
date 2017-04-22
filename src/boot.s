@@ -14,18 +14,19 @@ section .bss
 align 16
 stack:
     resb 16384
+stack_end:
 
 section .text:
-gdtr dw 0
-     dd 0
+gdtr dw 0 ; size
+     dd 0 ; gdt pointer
 
 global gdt_set
 
 gdt_set:
-    mov eax, [esp + 4]
-    mov [gdtr + 2], eax
-    mov ax, [esp + 8]
-    mov [gdtr], ax
+    mov eax, [esp + 4]  ; pop ptr into eax
+    mov [gdtr + 2], eax ; store ptr into gdtr
+    mov ax, [esp + 8]   ; pop size into ax
+    mov [gdtr], ax      ; store size into gdtr
     lgdt [gdtr]
     ret
 
@@ -47,12 +48,12 @@ global _start:function (_start.end - _start)
 extern kernel_main
 
 _start:
-    mov esp, stack + 16384
+    mov esp, stack_end
 
     call kernel_main
 
     cli
 .loop:
     hlt
-	jmp .loop
+    jmp .loop
 .end:
