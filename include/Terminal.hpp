@@ -4,9 +4,17 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <inline_asm.hpp>
+
 #include <string.hpp>
 #include <basic_string_view.hpp>
 #include <algorithm.hpp>
+
+struct vga_index_register {
+    static constexpr auto low_byte = 15u;
+    static constexpr auto high_byte = 14u;
+    static constexpr auto underline_location = 0x3D4u; 
+};
 
 enum class color : uint8_t {
 	black = 0,
@@ -50,7 +58,7 @@ public:
     { 
         for (auto y = 0u; y < rows; ++y) {
             for (auto x = 0u; x < columns; ++x) {
-                write_char_at(' ', color::black, x, y);
+                write_char_at(' ', make_color(color::white, color::black), x, y);
             }
         }
     }
@@ -108,15 +116,27 @@ public:
 
             // Leave last row blank
             for (auto x = 0u; x < columns; ++x) {
-                write_char_at(' ', color::black, x, rows - 1);
+                write_char_at(' ', make_color(color::white, color::black), x, rows - 1);
             }
         }
+
+        move_cursor();
     }
     
     void write(string_view data) {
         for (size_t i = 0; i < data.length(); i++) {
             put_char(data[i]);
         }
+    }
+
+    void move_cursor() {
+        auto position = (row_ * columns) + column_;
+
+        outb(vga_index_register::underline_location, vga_index_register::high_byte);
+        outb(vga_index_register::underline_location + 1, static_cast<uint8_t>(position >> 8));
+
+        outb(vga_index_register::underline_location, vga_index_register::low_byte);
+        outb(vga_index_register::underline_location + 1, static_cast<uint8_t>(position));
     }
 };
 
