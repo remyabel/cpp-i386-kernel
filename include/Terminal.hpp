@@ -56,11 +56,7 @@ public:
           color_(make_color(color::white, color::black)),
           buffer_(reinterpret_cast<uint16_t*>(0xB8000))
     { 
-        for (auto y = 0u; y < rows; ++y) {
-            for (auto x = 0u; x < columns; ++x) {
-                write_char_at(' ', make_color(color::white, color::black), x, y);
-            }
-        }
+        clear();
     }
 
     static constexpr size_t columns = 80;
@@ -114,10 +110,9 @@ public:
                         buffer_ + current_line_start);
             }
 
-            // Leave last row blank
-            for (auto x = 0u; x < columns; ++x) {
-                write_char_at(' ', make_color(color::white, color::black), x, rows - 1);
-            }
+            clear_line(rows - 1);
+
+            
         }
 
         move_cursor();
@@ -126,6 +121,20 @@ public:
     void write(string_view data) {
         for (size_t i = 0; i < data.length(); i++) {
             put_char(data[i]);
+        }
+    }
+
+    void clear() {
+        for (auto y = 0u; y < rows; ++y) {
+            for (auto x = 0u; x < columns; ++x) {
+                write_char_at(' ', make_color(color::white, color::black), x, y);
+            }
+        }
+    }
+
+    void clear_line(size_t row) {
+        for (auto x = 0u; x < columns; ++x) {
+            write_char_at(' ', make_color(color::white, color::black), x, row);
         }
     }
 
