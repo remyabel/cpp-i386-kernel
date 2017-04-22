@@ -5,6 +5,8 @@
 
 #include <Terminal.hpp>
 
+#include <gdt.hpp>
+
 extern "C" /* Use C linkage for kernel_main. */
 void kernel_main() {
     Terminal terminal;
@@ -14,5 +16,7 @@ void kernel_main() {
         terminal.write(buf);
     }
 
-    terminal.write("This is the last line");
+    gdt_init();
+
+    terminal.write("Initialized GDT");
 }

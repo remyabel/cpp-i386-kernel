@@ -52,7 +52,7 @@ See issues for checklist on various standard library stuff (`array`, etc.)
 
 ### Kernel stuff
 - [ ] IDT
-- [ ] GDT
+- [x] GDT
 - [ ] PMM
 - [ ] VMM
 
