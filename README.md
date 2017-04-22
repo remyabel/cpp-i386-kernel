@@ -17,11 +17,31 @@ The above is a more opinionated talk that addresses the schism between the C and
 
 This project spawned from [OSDev Bare Bones tutorial](http://wiki.osdev.org/Bare_Bones), but has taken a life of its own.
 
+### Voodoo
+
+Keep in mind while the advice there is good, the code sometimes contains items of questionable benefit. For example:
+
+```C++
+static inline foo();
+```
+
+When putting this in a header file (which many people do), the `static` keyword will simply add bloat to the executable size because there is a separate `foo()` for every translation unit. 
+
+```C++
+outb(0x3D4, position & 0xFF);
+```
+
+Here masking is used to get the least significant byte. This contains a (potential) implicit conversion to an `unsigned` type; but if you are already working with an `unsigned` type, then masking is not necessary. This is more readable code:
+
+```C++
+static_cast<uint8_t>(position);
+```
+
 ### Mini standard library
 - [x] Use `string_view` instead of naked `const char*`
 - [x] Put Terminal in its own class
 - [ ] Implement `span` (read/write view) for video buffer
-- [ ] Implement `memcpy` and other useful C library functions
+- [ ] Implement `memcpy` and other useful C library functions (is this needed? `copy` and `string_view` do just fine)
 - [x] Implement iterators (for random access iterator)
     - [ ] then add an iterator interface to Terminal/spans
 
