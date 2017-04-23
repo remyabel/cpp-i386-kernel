@@ -47,10 +47,17 @@ gdt_flush:
 global _start:function (_start.end - _start)
 extern kernel_main
 
+extern _init
+extern _fini
+
 _start:
     mov esp, stack_end
 
+    call _init
+
     call kernel_main
+
+    call _fini
 
     cli
 .loop:

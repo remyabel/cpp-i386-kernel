@@ -12,7 +12,6 @@
 
 extern "C" /* Use C linkage for kernel_main. */
 void kernel_main() {
-    Terminal terminal;
     for (auto i = 0u; i <= 25; ++i) {
         char c = static_cast<char>(i) + '0';
         char buf[] = { c, '\n', '\0' };

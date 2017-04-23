@@ -9,14 +9,14 @@ CRTEND_OBJ := $(shell $(CXX) $(CXXFLAGS) -print-file-name=crtend.o)
 CRTN_OBJ = obj/crtn.o
 
 SRC := $(wildcard src/*.cpp)
-OBJ := $(patsubst src/%, obj/%, $(SRC:.cpp=.o))
+OBJ := $(filter-out obj/main.o,$(patsubst src/%, obj/%, $(SRC:.cpp=.o)))
 
 TESTSRC := $(wildcard test/*.cpp)
 TESTOBJ := $(patsubst test/%.cpp, test/%.o, $(TESTSRC:.cpp=.o))
 
 all: main test iso qemu
 
-main: $(CRTI_OBJ) $(CRTBEGIN_OBJ) $(OBJ) obj/boot.o $(CRTEND_OBJ) $(CRTN_OBJ)
+main: $(CRTI_OBJ) $(CRTBEGIN_OBJ) obj/main.o obj/boot.o $(OBJ) $(CRTEND_OBJ) $(CRTN_OBJ)
 	$(CXX) -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib $^ -lgcc
 
 iso:
@@ -28,7 +28,7 @@ iso:
 qemu:
 	qemu-system-i386 -cdrom myos.iso
 
-test: $(TESTOBJ) $(filter-out obj/main.o, $(OBJ))
+test: $(TESTOBJ)
 	g++ -O2 $^ -o test/test-main
 	test/test-main -r compact
 
