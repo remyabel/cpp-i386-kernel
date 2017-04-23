@@ -1,9 +1,12 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <algorithm.hpp>
 #include <string.hpp>
+#include <basic_string_view.hpp>
 
 #include <Terminal.hpp>
+#include <Terminal_iterator.hpp>
 
 #include <gdt.hpp>
 
@@ -18,5 +21,6 @@ void kernel_main() {
 
     gdt_init();
 
-    terminal.write("Initialized GDT");
+    string_view s{"Initialized GDT"};
+    copy(s.begin(), s.end(), Terminal_output_iterator<char>(terminal, ""));
 }
