@@ -2,16 +2,16 @@
 #define ALGORITHM_HPP
 
 #include <stddef.h>
+#include <iterator.hpp>
 
 // [alg.copy]
 template <class InputIterator, class OutputIterator>
 OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
 {
-    size_t dist = last - first;
-    for (auto n = 0u; n < dist; ++n) {
-        *(result + n) = *(first + n);
+    for (; first != last; ) {
+        *result++ = *first++;
     }
-    return result + (last - first);
+    return result;
 }
 
 #endif
