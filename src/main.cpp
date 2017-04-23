@@ -15,11 +15,11 @@ void kernel_main() {
     for (auto i = 0u; i <= 25; ++i) {
         char c = static_cast<char>(i) + '0';
         char buf[] = { c, '\n', '\0' };
-        terminal.write(buf);
+        vga::terminal.write(buf);
     }
 
     const Gdt gdt;
 
     string_view s{"Initialized GDT"};
-    copy(s.begin(), s.end(), Terminal_output_iterator<char>(terminal, ""));
+    copy(s.begin(), s.end(), vga::Terminal_output_iterator<char>(vga::terminal, ""));
 }
