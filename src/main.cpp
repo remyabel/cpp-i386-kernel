@@ -18,7 +18,7 @@ void kernel_main() {
         terminal.write(buf);
     }
 
-    gdt_init();
+    const Gdt gdt;
 
     string_view s{"Initialized GDT"};
     copy(s.begin(), s.end(), Terminal_output_iterator<char>(terminal, ""));
