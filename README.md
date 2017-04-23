@@ -41,9 +41,10 @@ static_cast<uint8_t>(position);
 - [x] Use `string_view` instead of naked `const char*`
 - [x] Put Terminal in its own class
 - [ ] Implement `span` (read/write view) for video buffer
-- [ ] Implement `memcpy` and other useful C library functions (is this needed? `copy` and `string_view` do just fine)
+- [ ] Implement `memcpy` and other useful C library functions (is this needed? `copy` and `string_view` do just fine); except we need to implement at least 4 functions for libgcc
 - [x] Implement iterators (for random access iterator)
-    - [ ] then add an iterator interface to Terminal/spans
+    - [x] then add an iterator interface to Terminal (output iterator)
+    - [ ] `span` will cover the rest of the iterator interface
 
 See issues for checklist on various standard library stuff (`array`, etc.)
 
