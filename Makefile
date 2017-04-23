@@ -3,6 +3,11 @@ AS = nasm
 CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti
 OPTS = -MMD -MP -Iinclude
 
+CRTI_OBJ = obj/crti.o
+CRTBEGIN_OBJ := $(shell $(CXX) $(CXXFLAGS) -print-file-name=crtbegin.o)
+CRTEND_OBJ := $(shell $(CXX) $(CXXFLAGS) -print-file-name=crtend.o)
+CRTN_OBJ = obj/crtn.o
+
 SRC := $(wildcard src/*.cpp)
 OBJ := $(patsubst src/%, obj/%, $(SRC:.cpp=.o))
 
@@ -11,7 +16,7 @@ TESTOBJ := $(patsubst test/%.cpp, test/%.o, $(TESTSRC:.cpp=.o))
 
 all: main test iso qemu
 
-main: $(OBJ) obj/boot.o
+main: $(CRTI_OBJ) $(CRTBEGIN_OBJ) $(OBJ) obj/boot.o $(CRTEND_OBJ) $(CRTN_OBJ)
 	$(CXX) -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib $^ -lgcc
 
 iso:
@@ -26,6 +31,12 @@ qemu:
 test: $(TESTOBJ) $(filter-out obj/main.o, $(OBJ))
 	g++ -O2 $^ -o test/test-main
 	test/test-main -r compact
+
+obj/crti.o: src/crti.s
+	$(AS) -felf32 $< -o $@
+
+obj/crtn.o: src/crtn.s
+	$(AS) -felf32 $< -o $@
 
 obj/boot.o: src/boot.s
 	$(AS) -felf32 $< -o $@
