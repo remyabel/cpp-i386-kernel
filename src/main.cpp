@@ -25,5 +25,5 @@ void kernel_main() {
     string_view s{"Initialized GDT"};
     copy(s.begin(), s.end(), vga::Terminal_output_iterator<char>(vga::terminal, ""));
 
-    volatile auto i = 10 / 0;
+    printf("Test printf");
 }

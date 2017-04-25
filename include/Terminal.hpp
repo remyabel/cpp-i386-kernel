@@ -10,6 +10,8 @@
 #include <basic_string_view.hpp>
 #include <algorithm.hpp>
 
+#include <tinyprintf.h>
+
 namespace vga {
     struct index_register {
         static constexpr auto low_byte = 15u;

@@ -1,5 +1,10 @@
 #include <Terminal.hpp>
 
+extern "C"
+void putc(void *, char c) {
+    vga::terminal.put_char(c);
+}
+
 namespace vga {
     Terminal terminal;
 
@@ -8,6 +13,7 @@ namespace vga {
         color_(make_color(color::white, color::black)),
         buffer_(reinterpret_cast<uint16_t*>(0xB8000))
     { 
+        init_printf(nullptr, putc);
         clear();
     }
 
