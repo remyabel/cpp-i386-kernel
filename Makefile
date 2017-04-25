@@ -3,7 +3,7 @@ CC = i686-elf-gcc
 AS = nasm
 CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti
 CCFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding
-OPTS = -MD -MP -Iinclude
+OPTS = -MD -MP -Iinclude -Iinclude/kstd
 
 CRTI_OBJ = obj/crti.o
 CRTBEGIN_OBJ := $(shell $(CXX) $(CXXFLAGS) -print-file-name=crtbegin.o)
