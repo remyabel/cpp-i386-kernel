@@ -21,10 +21,11 @@ This project spawned from [OSDev Bare Bones tutorial](http://wiki.osdev.org/Bare
 - [x] Use `string_view` instead of naked `const char*`
 - [x] Put Terminal in its own class
 - [ ] Implement `span` (read/write view) for video buffer
-- [ ] Implement `memcpy` and other useful C library functions (is this needed? `copy` and `string_view` do just fine); except we need to implement at least 4 functions for libgcc
+- [ ] Implement `memcpy`, `memmove`, `memset`, `memcmp` (not provided by [`libgcc`](https://gcc.gnu.org/onlinedocs/gcc-4.9.2/gcc/Standards.html))
 - [x] Implement iterators (for random access iterator)
     - [x] then add an iterator interface to Terminal (output iterator)
     - [ ] `span` will cover the rest of the iterator interface
+- [x] Include [cjlano's tinyprintf](https://github.com/cjlano/tinyprintf)
 
 See issues for checklist on various standard library stuff (`array`, etc.)
 
