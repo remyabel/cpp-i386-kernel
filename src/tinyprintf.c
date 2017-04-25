@@ -18,6 +18,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Change sys/types.h to stddef.h remyabel, 25.04.2017
+Change tfp_printf prototype to const char* instead of char*
 */
 
 #include "tinyprintf.h"
@@ -431,7 +432,7 @@ void init_printf(void *putp, putcf putf)
     stdout_putp = putp;
 }
 
-void tfp_printf(char *fmt, ...)
+void tfp_printf(const char *fmt, ...)
 {
     va_list va;
     va_start(va, fmt);

@@ -98,6 +98,7 @@ For further details see source code.
 regs Kusti, 23.10.2004
 
 Change sys/types.h to stddef.h remyabel, 25.04.2017
+Change tfp_printf prototype to const char* instead of char*
 */
 
 #ifndef __TFP_PRINTF__
@@ -175,7 +176,7 @@ int tfp_sprintf(char *str, const char *fmt, ...) \
 
 #if TINYPRINTF_DEFINE_TFP_PRINTF
 void init_printf(void *putp, putcf putf);
-void tfp_printf(char *fmt, ...) _TFP_SPECIFY_PRINTF_FMT(1, 2);
+void tfp_printf(const char *fmt, ...) _TFP_SPECIFY_PRINTF_FMT(1, 2);
 # if TINYPRINTF_OVERRIDE_LIBC
 #  define printf tfp_printf
 # endif
