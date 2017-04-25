@@ -4,7 +4,7 @@ FLAGS     equ ALIGN_BIT | MEMINFO
 MAGIC     equ 0x1BADB002
 CHECKSUM  equ -(MAGIC + FLAGS)
 
-section .multiboot:
+section .multiboot
 align 4
     dd MAGIC
     dd FLAGS
@@ -16,7 +16,7 @@ stack:
     resb 16384
 stack_end:
 
-section .text:
+section .text
 global _start:function (_start.end - _start)
 extern kernel_main
 
