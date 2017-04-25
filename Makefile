@@ -8,8 +8,10 @@ CRTBEGIN_OBJ := $(shell $(CXX) $(CXXFLAGS) -print-file-name=crtbegin.o)
 CRTEND_OBJ := $(shell $(CXX) $(CXXFLAGS) -print-file-name=crtend.o)
 CRTN_OBJ = obj/crtn.o
 
-SRC := $(wildcard src/*.cpp)
-OBJ := $(patsubst src/%, obj/%, $(SRC:.cpp=.o))
+FILTER_OUT := src/crti.s src/crtn.s
+SRC := $(filter-out $(FILTER_OUT), $(wildcard src/*.cpp src/*.s))
+TMP_OBJ := $(patsubst src/%, obj/%, $(SRC:.s=.o))
+OBJ := $(patsubst src/%, obj/%, $(TMP_OBJ:.cpp=.o))
 
 TESTSRC := $(wildcard test/*.cpp)
 TESTOBJ := $(patsubst test/%.cpp, test/%.o, $(TESTSRC:.cpp=.o))
@@ -37,13 +39,7 @@ test: $(TESTOBJ)
 	g++ -O2 $^ -o test/test-main
 	test/test-main -r compact
 
-obj/crti.o: src/crti.s
-	$(AS) -felf32 $< -o $@
-
-obj/crtn.o: src/crtn.s
-	$(AS) -felf32 $< -o $@
-
-obj/boot.o: src/boot.s
+obj/%.o: src/%.s
 	$(AS) -felf32 $< -o $@
 
 obj/%.o: src/%.cpp
