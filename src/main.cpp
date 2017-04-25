@@ -26,5 +26,6 @@ void kernel_main() {
 
     printf("Initialized IDT\n");
 
-    volatile int i = 10 / 0;
+    asm volatile("int $0x3");
+    asm volatile("int $0x4");
 }
