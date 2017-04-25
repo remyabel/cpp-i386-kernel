@@ -17,6 +17,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+Change sys/types.h to stddef.h remyabel, 25.04.2017
 */
 
 #include "tinyprintf.h"
@@ -39,7 +40,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * Configuration adjustments
  */
 #ifdef PRINTF_SIZE_T_SUPPORT
-#include <sys/types.h>
+#include <stddef.h>
 #endif
 
 #ifdef PRINTF_LONG_LONG_SUPPORT

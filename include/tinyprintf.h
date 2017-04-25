@@ -96,6 +96,8 @@ functions.
 For further details see source code.
 
 regs Kusti, 23.10.2004
+
+Change sys/types.h to stddef.h remyabel, 25.04.2017
 */
 
 #ifndef __TFP_PRINTF__
@@ -126,7 +128,7 @@ regs Kusti, 23.10.2004
 /* Optional external types dependencies */
 
 #if TINYPRINTF_DEFINE_TFP_SPRINTF
-# include <sys/types.h>  /* size_t */
+# include <stddef.h>  /* size_t */
 #endif
 
 /* Declarations */
