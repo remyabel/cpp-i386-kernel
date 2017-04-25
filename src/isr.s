@@ -9,26 +9,42 @@ isr0:
 extern fault_handler
 
 isr_common_stub:
-    pusha
+    ; Push general purpose registers
+    pushad
+
+    ; Store segments
     push ds
     push es
     push fs
     push gs
-    mov ax, 0x10   ; Load the Kernel Data Segment descriptor!
+
+    ; Switch to kernel data segment
+    mov ax, 0x10
     mov ds, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
-    mov eax, esp   ; Push us the stack
-    push eax
-    mov eax, fault_handler
-    call eax       ; A special call, preserves the 'eip' register
-    pop eax
+
+    ; Push stack pointer
+    push esp
+
+    call fault_handler
+
+    ; Restore stack pointer
+    mov esp, eax
+
+    ; Restore segments
     pop gs
     pop fs
     pop es
     pop ds
-    popa
-    add esp, 8     ; Cleans up the pushed error code and pushed ISR number
-    iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP!
+
+    ; Restore general purpose registers
+    popad
+
+    ; Skip int_no/err_code pushed by ISR handler
+    add esp, 8
+
+    ; Restore CS, SS, EIP, ESP, EFFLAGS 
+    iret
 
