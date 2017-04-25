@@ -75,8 +75,6 @@ namespace vga {
         void write_char_at(char c, color color, size_t x, size_t y);
 
         void put_char(char c);
-                    
-        void write(string_view data);
 
         void clear();
 

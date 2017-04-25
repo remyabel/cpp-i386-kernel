@@ -14,9 +14,7 @@
 extern "C"
 void kernel_main() {
     for (auto i = 0u; i <= 25; ++i) {
-        char c = static_cast<char>(i) + '0';
-        char buf[] = { c, '\n', '\0' };
-        vga::terminal.write(buf);
+        printf("%d\n", i);
     }
 
     const Gdt gdt;
@@ -24,6 +22,9 @@ void kernel_main() {
 
     string_view s{"Initialized GDT"};
     copy(s.begin(), s.end(), vga::Terminal_output_iterator<char>(vga::terminal, ""));
+    printf("\n");
 
-    printf("Test printf");
+    printf("Initialized IDT\n");
+
+    volatile int i = 10 / 0;
 }

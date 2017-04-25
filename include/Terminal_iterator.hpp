@@ -31,9 +31,9 @@ namespace vga {
         // Destructor/copy constructor are implicitly generated
         
         Terminal_output_iterator& operator=(char value) {
-            out_terminal->put_char(value);
+            printf("%c", value);
             if (delim) {
-                out_terminal->write(delim);
+                printf(delim);
             }
             return *this;
         }

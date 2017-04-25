@@ -62,10 +62,7 @@ struct registers
 
 extern "C"
 void fault_handler(registers *reg) {
-    vga::terminal.write("\nFault #");
-    auto c = static_cast<char>(reg->int_no + '0');
-    char buf[] = { c, '\n', '\0' };
-    vga::terminal.write(buf);
+    printf("Fault #%d\n", reg->int_no);
 
     for (;;);
 }

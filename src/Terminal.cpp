@@ -62,12 +62,6 @@ namespace vga {
         move_cursor();
     }
 
-    void Terminal::write(string_view data) {
-        for (size_t i = 0; i < data.length(); i++) {
-            put_char(data[i]);
-        }
-    }
-
     void Terminal::clear() {
         for (auto y = 0u; y < rows; ++y) {
             for (auto x = 0u; x < columns; ++x) {
