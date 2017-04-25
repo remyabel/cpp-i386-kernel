@@ -9,8 +9,9 @@
 #include <Terminal_iterator.hpp>
 
 #include <gdt.hpp>
+#include <idt.hpp>
 
-extern "C" /* Use C linkage for kernel_main. */
+extern "C"
 void kernel_main() {
     for (auto i = 0u; i <= 25; ++i) {
         char c = static_cast<char>(i) + '0';
