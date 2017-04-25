@@ -1,7 +1,7 @@
 CXX = i686-elf-g++
 AS = nasm
 CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti
-OPTS = -MMD -MP -Iinclude
+OPTS = -MD -MP -Iinclude
 
 CRTI_OBJ = obj/crti.o
 CRTBEGIN_OBJ := $(shell $(CXX) $(CXXFLAGS) -print-file-name=crtbegin.o)
@@ -9,14 +9,19 @@ CRTEND_OBJ := $(shell $(CXX) $(CXXFLAGS) -print-file-name=crtend.o)
 CRTN_OBJ = obj/crtn.o
 
 SRC := $(wildcard src/*.cpp)
-OBJ := $(filter-out obj/main.o,$(patsubst src/%, obj/%, $(SRC:.cpp=.o)))
+OBJ := $(patsubst src/%, obj/%, $(SRC:.cpp=.o))
 
 TESTSRC := $(wildcard test/*.cpp)
 TESTOBJ := $(patsubst test/%.cpp, test/%.o, $(TESTSRC:.cpp=.o))
 
+DEP := $(OBJ:%.o=%.d)
+TESTDEP := $(TESTOBJ:%.o=%.d)
+
+.PHONY: all clean
+
 all: main test iso qemu
 
-main: $(CRTI_OBJ) $(CRTBEGIN_OBJ) obj/main.o obj/boot.o $(OBJ) $(CRTEND_OBJ) $(CRTN_OBJ)
+main: $(CRTI_OBJ) $(CRTBEGIN_OBJ) $(OBJ) obj/boot.o $(CRTEND_OBJ) $(CRTN_OBJ)
 	$(CXX) -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib $^ -lgcc
 
 iso:
@@ -50,7 +55,5 @@ test/%.o: test/%.cpp
 clean:
 	rm -rf obj/* main test/test-main test/*.o test/*.d myos* isodir/
 
--include $(OBJ:%.o=%.d)
--include $(TESTOBJ:%.o=%.d)
-
-.PHONY: clean
+-include $(DEP)
+-include $(TESTDEP)
