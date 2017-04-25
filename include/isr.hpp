@@ -1,6 +1,9 @@
 #ifndef ISR_HPP
 #define ISR_HPP
 
+#include <array.hpp>
+#include <basic_string_view.hpp>
+
 #include <tinyprintf.h>
 
 extern "C" void isr0();
@@ -44,9 +47,31 @@ struct registers
     unsigned int eip, cs, eflags, useresp, ss;   /* pushed by the processor automatically */ 
 };
 
+constexpr kstd::array<kstd::string_view, 31> exception_msgs = {{
+	"Divide by zero exception",
+	"Debug exception",
+	"Non-maskable interrupt exception",
+	"Breakpoint exception",
+	"Detected overflow exception",
+	"Out of bounds exception",
+	"Invalid operation code exception",
+	"No coprocessor exception",
+	"Double fault exception ",
+	"Coprocessor segment overrun exception",
+	"Bad TSS exception ",
+	"Segment not present exception ",
+	"Stack fault exception ",
+	"General protection fault exception ",
+	"Page fault ",
+	"Unknown interrupt exception",
+	"Coprocessor fault exception",
+	"Alignment check exception",
+	"Machine check exception"
+}};
+
 extern "C"
 void fault_handler(registers *reg) {
-    printf("Fault #%d\n", reg->int_no);
+    printf("Interrupt called #%d: %s\n", reg->int_no, (exception_msgs.begin() + reg->int_no)->data());
 
     for (;;);
 }
