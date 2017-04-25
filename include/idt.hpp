@@ -29,7 +29,7 @@ class Idt {
     idt_descriptor idt_ptr;
 
     void idt_create_descriptor(size_t index, idt_entry e) {
-        *(idt_table.begin() + index) = e;
+        idt_table[index] = e;
     }
 
     void idt_create_descriptor(size_t index, void (*isr)()) {

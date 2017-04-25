@@ -47,7 +47,7 @@ class Gdt {
     gdt_descriptor gdt_ptr;
     
     void gdt_create_descriptor(size_t index, gdt_entry e) {
-        *(gdt_table.begin() + index) = e;
+        gdt_table[index] = e;
     }
 
     void gdt_init() {

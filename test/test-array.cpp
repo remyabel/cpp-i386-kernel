@@ -23,4 +23,7 @@ TEST_CASE("array forms a valid range and works w/ range functions", "[array]") {
     copy(arr.begin(), arr.end(),
             next(arr2.begin(), 5));
     REQUIRE(*(arr2.begin() + 5) == 1);
+
+    REQUIRE(arr[0] == 1);
+    REQUIRE(arr2[5] == 1);
 }

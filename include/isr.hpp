@@ -71,7 +71,7 @@ constexpr kstd::array<kstd::string_view, 31> exception_msgs = {{
 
 extern "C"
 void fault_handler(registers *reg) {
-    printf("Interrupt called #%d: %s\n", reg->int_no, (exception_msgs.begin() + reg->int_no)->data());
+    printf("Interrupt called #%d: %s\n", reg->int_no, exception_msgs[reg->int_no].data());
 
     for (;;);
 }

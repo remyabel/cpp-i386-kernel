@@ -56,6 +56,14 @@ namespace kstd {
             constexpr const T* data() const noexcept {
                 return elems_;
             }
+
+            constexpr reference operator[](size_type n) {
+                return *(begin() + n);
+            }
+
+            constexpr const_reference operator[](size_t n) const {
+                return *(begin() + n);
+            }
         };
 
     }
