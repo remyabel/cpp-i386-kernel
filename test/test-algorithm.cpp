@@ -3,6 +3,8 @@
 #include <algorithm.hpp>
 
 TEST_CASE("perform copy", "[copy]") {
+    using namespace kstd;
+
     int input[] = {1, 2, 3};
     int output[3] = {};
 

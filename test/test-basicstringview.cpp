@@ -4,6 +4,7 @@
 #include <basic_string_view.hpp>
 
 TEST_CASE("basic_string_view constructors", "[basic_string_view]") {
+    using namespace kstd;
 
     SECTION("default construct") {
         string_view s;
@@ -27,6 +28,8 @@ TEST_CASE("basic_string_view constructors", "[basic_string_view]") {
 }
 
 TEST_CASE("basic_string_view interface", "[basic_string_view.interface]") {
+    using namespace kstd;
+
     string_view s{"hello"};
     string_view s2{"long string", 4};
 

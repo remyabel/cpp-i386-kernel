@@ -43,7 +43,7 @@ extern "C" void gdt_set(gdt_entry *, size_t);
 extern "C" void gdt_flush();
 
 class Gdt {
-    array<gdt_entry, 5> gdt_table;
+    kstd::array<gdt_entry, 5> gdt_table;
     gdt_descriptor gdt_ptr;
     
     void gdt_create_descriptor(size_t index, gdt_entry e) {

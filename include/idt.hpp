@@ -25,7 +25,7 @@ extern "C" void idt_set(idt_entry *, size_t);
 extern "C" void isr0();
 
 class Idt {
-    array<idt_entry, 256> idt_table;
+    kstd::array<idt_entry, 256> idt_table;
     idt_descriptor idt_ptr;
 
     void idt_create_descriptor(size_t index, idt_entry e) {

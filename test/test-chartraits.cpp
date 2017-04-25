@@ -3,6 +3,8 @@
 #include <char_traits.hpp>
 
 TEST_CASE("char_traits has correct behavior for char", "[char_traits]") {
+    using namespace kstd;
+
     REQUIRE(char_traits<char>::eq('a', 'a'));
     REQUIRE(!char_traits<char>::eq('b', 'a'));
 

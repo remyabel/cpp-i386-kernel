@@ -4,6 +4,8 @@
 #include <array.hpp>
 
 TEST_CASE("array forms a valid range and works w/ range functions", "[array]") {
+    using namespace kstd;
+
     array<int, 5> arr = {1, 2, 3, 4, 5};
 
     REQUIRE(*arr.begin() == 1);

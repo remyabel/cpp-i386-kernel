@@ -49,7 +49,7 @@ namespace vga {
                 auto next_line_end      = ((y + 1) * columns) + columns;
                 auto current_line_start = y * columns;
 
-                copy(buffer_ + next_line_start,
+                kstd::copy(buffer_ + next_line_start,
                         buffer_ + next_line_end,
                         buffer_ + current_line_start);
             }

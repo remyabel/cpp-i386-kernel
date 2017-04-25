@@ -20,8 +20,8 @@ void kernel_main() {
     const Gdt gdt;
     const Idt idt;
 
-    string_view s{"Initialized GDT"};
-    copy(s.begin(), s.end(), vga::Terminal_output_iterator<char>(vga::terminal, ""));
+    kstd::string_view s{"Initialized GDT"};
+    kstd::copy(s.begin(), s.end(), vga::Terminal_output_iterator<char>(vga::terminal, ""));
     printf("\n");
 
     printf("Initialized IDT\n");

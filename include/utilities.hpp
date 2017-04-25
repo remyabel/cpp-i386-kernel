@@ -1,15 +1,20 @@
 #ifndef UTILITIES_HPP
 #define UTILITIES_HPP
 
-// [specialized.addressof]
+namespace kstd {
+    inline namespace v1 {
 
-template <class T>
-constexpr T* addressof(T& r) noexcept {
-    return reinterpret_cast<T*>(
-            &const_cast<char&>(
-                reinterpret_cast<const volatile char&>(r)
-            )
-        );
+        // [specialized.addressof]
+        template <class T>
+        constexpr T* addressof(T& r) noexcept {
+            return reinterpret_cast<T*>(
+                    &const_cast<char&>(
+                        reinterpret_cast<const volatile char&>(r)
+                    )
+                );
+        }
+
+    }
 }
 
 #endif
