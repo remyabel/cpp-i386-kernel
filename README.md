@@ -1,5 +1,7 @@
 # Bare Bones i386 kernel
 
+This is a restored back-up that's about 300~ commits behind.
+
 ## Impetus
 
 C is a popular language for embedded systems and there is a lot of myths that make C++ an unpopular
