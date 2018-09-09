@@ -9,8 +9,8 @@ install:
     - mkdir build-binutils && cd build-binutils
     - ../binutils-2.31/configure --target=i686-elf --prefix="$HOME/cross-install" --with-sysroot --disable-nls --disable-werror
     - make -j4 && make install
-    - cd gcc-8.2.0 && ./contrib/download_prerequisites && cd ..
-    - mkdir build-gcc
+    - cd ../gcc-8.2.0 && ./contrib/download_prerequisites && cd ..
+    - mkdir build-gcc && cd build-gcc
     - ../gcc-8.2.0/configure --target=i686-elf --prefix="$HOME/cross-install" --disable-nls --enable-languages=c,c++ --without-headers
     - make -j4 all-gcc
     - make -j4 all-target-libgcc
