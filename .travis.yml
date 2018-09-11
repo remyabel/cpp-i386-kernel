@@ -1,5 +1,6 @@
 language: cpp
 compiler: gcc
+dist: trusty
 matrix:
     include:
         - os: linux
@@ -11,6 +12,8 @@ matrix:
                       - g++-8
           env:
               - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+before_install:
+    - sudo apt-get install -y nasm
 install:
     - wget https://ftp.gnu.org/gnu/binutils/binutils-2.31.tar.gz
     - wget https://ftp.gnu.org/gnu/gcc/gcc-8.2.0/gcc-8.2.0.tar.gz
