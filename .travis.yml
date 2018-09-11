@@ -1,5 +1,16 @@
 language: cpp
 compiler: gcc
+matrix:
+    include:
+        - os: linux
+          addons:
+              apt:
+                  sources:
+                      - ubuntu-toolchain-r-test
+                  packages:
+                      - g++-8
+          env:
+              - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 install:
     - wget https://ftp.gnu.org/gnu/binutils/binutils-2.31.tar.gz
     - wget https://ftp.gnu.org/gnu/gcc/gcc-8.2.0/gcc-8.2.0.tar.gz
@@ -20,6 +31,7 @@ install:
 
 script:
     - cd ../test && wget https://github.com/catchorg/Catch2/releases/download/v2.4.0/catch.hpp 
+    - eval "${MATRIX_EVAL}"
     - cd .. && make test
 
 notifications:
