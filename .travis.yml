@@ -32,7 +32,7 @@ install:
 script:
     - cd ../test && wget https://github.com/catchorg/Catch2/releases/download/v2.4.0/catch.hpp 
     - eval "${MATRIX_EVAL}"
-    - cd .. && make test
+    - cd .. && make HOST_CXX="${CXX}" test
 
 notifications:
     email: false

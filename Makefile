@@ -1,5 +1,7 @@
 CXX = i686-elf-g++
 CC = i686-elf-gcc
+HOST_CXX ?= g++
+HOST_CC ?= gcc
 AS = nasm
 CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti
 CCFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding
@@ -39,7 +41,7 @@ qemu:
 	qemu-system-i386 -cdrom myos.iso
 
 test: $(TESTOBJ)
-	g++ -O2 $^ -o test/test-main
+	$(HOST_CXX) -O2 $^ -o test/test-main
 	test/test-main -r compact
 
 obj/%.o: src/%.s
@@ -52,7 +54,7 @@ obj/tinyprintf.o: src/tinyprintf.c
 	$(CC) $(CCFLAGS) $(OPTS) -c $< -o $@
 
 test/%.o: test/%.cpp
-	g++ -O2 -Wall -Wextra -pedantic $(OPTS) -c $< -o $@
+	$(HOST_CXX) -O2 -Wall -Wextra -pedantic $(OPTS) -c $< -o $@
 
 clean:
 	rm -rf obj/* main test/test-main test/*.o test/*.d myos* isodir/
