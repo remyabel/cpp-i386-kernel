@@ -33,7 +33,7 @@ install:
     - export PATH="$HOME/cross-install/bin:$PATH" CC="i686-elf-gcc" CXX="i686-elf-g++"
 
 script:
-    - cd .. && make main
+    - cd .. && mkdir -p obj && make main
     - cd test && wget https://github.com/catchorg/Catch2/releases/download/v2.4.0/catch.hpp 
     - eval "${MATRIX_EVAL}"
     - cd .. && make HOST_CXX="${CXX}" test
