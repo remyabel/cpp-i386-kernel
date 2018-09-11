@@ -20,7 +20,7 @@ install:
 
 script:
     - cd ../test && wget https://github.com/catchorg/Catch2/releases/download/v2.4.0/catch.hpp 
-    - make test
+    - cd .. && make test
 
 notifications:
     email: false
