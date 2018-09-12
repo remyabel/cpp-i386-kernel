@@ -23,10 +23,10 @@ install:
     - export PATH="$HOME/cross-install/bin:$PATH" CC="i686-elf-gcc" CXX="i686-elf-g++"
 
 script:
-    - cd .. && mkdir -p obj && make main
+    - cd "$TRAVIS_BUILD_DIR" && mkdir -p obj && make main
     - cd test && wget https://github.com/catchorg/Catch2/releases/download/v2.4.0/catch.hpp 
     - eval "${MATRIX_EVAL}"
-    - cd .. && make HOST_CXX="${CXX}" test
+    - cd "$TRAVIS_BUILD_DIR" && make HOST_CXX="${CXX}" test
 
 notifications:
     email: false
