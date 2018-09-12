@@ -1,6 +1,7 @@
 language: cpp
 compiler: gcc
 dist: trusty
+cache: ccache
 matrix:
     include:
         - os: linux
