@@ -1,7 +1,10 @@
 language: cpp
 compiler: gcc
 dist: trusty
-cache: ccache
+cache:
+    ccache: true
+    directories:
+        - $HOME/cross-install
 matrix:
     include:
         - os: linux
@@ -16,21 +19,7 @@ matrix:
 before_install:
     - sudo apt-get install -y nasm
 install:
-    - wget https://ftp.gnu.org/gnu/binutils/binutils-2.31.tar.gz
-    - wget https://ftp.gnu.org/gnu/gcc/gcc-8.2.0/gcc-8.2.0.tar.gz
-    - tar zxf binutils-2.31.tar.gz
-    - tar zxf gcc-8.2.0.tar.gz
-    - mkdir cross-install
-    - mkdir build-binutils && cd build-binutils
-    - ../binutils-2.31/configure --target=i686-elf --prefix="$HOME/cross-install" --with-sysroot --disable-nls --disable-werror
-    - make -j4 && make install
-    - cd ../gcc-8.2.0 && ./contrib/download_prerequisites && cd ..
-    - mkdir build-gcc && cd build-gcc
-    - ../gcc-8.2.0/configure --target=i686-elf --prefix="$HOME/cross-install" --disable-nls --enable-languages=c,c++ --without-headers
-    - make -j4 all-gcc
-    - make -j4 all-target-libgcc
-    - make install-gcc
-    - make install-target-libgcc
+    - bash build-toolchain.sh
     - export PATH="$HOME/cross-install/bin:$PATH" CC="i686-elf-gcc" CXX="i686-elf-g++"
 
 script:
