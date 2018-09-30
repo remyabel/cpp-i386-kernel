@@ -11,8 +11,10 @@
 #include <gdt.hpp>
 #include <idt.hpp>
 
+#include <multiboot2.hpp>
+
 extern "C"
-void kernel_main() {
+void kernel_main(unsigned long magic, unsigned long addr) {
     for (auto i = 0u; i <= 25; ++i) {
         printf("%d\n", i);
     }

@@ -1,20 +1,25 @@
-ALIGN_BIT equ 1<<0
-MEMINFO   equ 1<<1
-FLAGS     equ ALIGN_BIT | MEMINFO
-MAGIC     equ 0x1BADB002
-CHECKSUM  equ -(MAGIC + FLAGS)
-
-section .multiboot
-align 4
-    dd MAGIC
-    dd FLAGS
-    dd CHECKSUM
-
 section .bss
 align 16
 stack:
     resb 16384
 stack_end:
+
+section .multiboot
+align 8
+header_start:
+    dd 0xe85250d6                ; magic number (multiboot 2)
+    dd 0                         ; architecture 0 (protected mode i386)
+    dd header_end - header_start ; header length
+    ; checksum
+    dd -(0xe85250d6 + 0 + (header_end - header_start))
+
+    ; insert optional multiboot tags here
+
+    ; required end tag
+    dw 0    ; type
+    dw 0    ; flags
+    dd 8    ; size
+header_end:
 
 section .text
 global _start:function (_start.end - _start)
@@ -25,6 +30,9 @@ extern _fini
 
 _start:
     mov esp, stack_end
+
+    push ebx
+    push eax
 
     call _init
 
