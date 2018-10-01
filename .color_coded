@@ -1,0 +1,7 @@
+-x
+c++
+-Iinclude
+-Iinclude/kstd
+-Wall
+-Wextra
+-std=c++17
