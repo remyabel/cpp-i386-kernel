@@ -14,6 +14,7 @@
 #include <multiboot2.hpp>
 
 extern void global_constructor_test();
+extern int local_static_variable_test();
 
 extern "C"
 void kernel_main(unsigned long magic, unsigned long addr) {
@@ -27,6 +28,11 @@ void kernel_main(unsigned long magic, unsigned long addr) {
     printf("Initialized IDT\n");
 
     global_constructor_test();
+
+    for (int i = 0; i < 5; ++i) {
+        local_static_variable_test();
+    }
+    printf("%d\n", local_static_variable_test());
 
     asm volatile("int $0x3");
     asm volatile("int $0x4");
