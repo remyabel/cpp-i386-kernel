@@ -13,12 +13,10 @@
 
 #include <multiboot2.hpp>
 
+extern void global_constructor_test();
+
 extern "C"
 void kernel_main(unsigned long magic, unsigned long addr) {
-    for (auto i = 0u; i <= 25; ++i) {
-        printf("%d\n", i);
-    }
-
     const Gdt gdt;
     const Idt idt;
 
@@ -27,6 +25,8 @@ void kernel_main(unsigned long magic, unsigned long addr) {
     printf("\n");
 
     printf("Initialized IDT\n");
+
+    global_constructor_test();
 
     asm volatile("int $0x3");
     asm volatile("int $0x4");
