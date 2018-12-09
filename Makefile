@@ -1,7 +1,5 @@
 CXX = i686-elf-g++
 CC = i686-elf-gcc
-HOST_CXX ?= g++
-HOST_CC ?= gcc
 AS = nasm
 CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti
 CCFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding
@@ -18,15 +16,11 @@ SRC := $(filter-out $(FILTER_OUT), $(wildcard src/*.cpp src/*.s))
 TMP_OBJ := $(patsubst src/%, obj/%, $(SRC:.s=.o))
 OBJ := obj/main.o $(filter-out obj/main.o,$(patsubst src/%, obj/%, $(TMP_OBJ:.cpp=.o)))
 
-TESTSRC := $(wildcard test/*.cpp)
-TESTOBJ := $(patsubst test/%.cpp, test/%.o, $(TESTSRC:.cpp=.o))
-
 DEP := $(OBJ:%.o=%.d)
-TESTDEP := $(TESTOBJ:%.o=%.d)
 
 .PHONY: all clean
 
-all: main test iso qemu
+all: main iso qemu
 
 main: $(CRTI_OBJ) $(CRTBEGIN_OBJ) obj/boot.o $(OBJ) obj/tinyprintf.o $(CRTEND_OBJ) $(CRTN_OBJ)
 	$(CXX) -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib $^ -lgcc
@@ -40,10 +34,6 @@ iso:
 qemu:
 	qemu-system-i386 -cdrom myos.iso
 
-test: $(TESTOBJ)
-	$(HOST_CXX) -O2 $^ -o test/test-main
-	test/test-main -r compact
-
 obj/%.o: src/%.s
 	$(AS) -felf32 $< -o $@
 
@@ -53,11 +43,7 @@ obj/%.o: src/%.cpp
 obj/tinyprintf.o: src/tinyprintf.c
 	$(CC) $(CCFLAGS) $(OPTS) -c $< -o $@
 
-test/%.o: test/%.cpp
-	$(HOST_CXX) -O2 -Wall -Wextra -pedantic $(OPTS) -c $< -o $@
-
 clean:
-	rm -rf obj/* main test/test-main test/*.o test/*.d myos* isodir/
+	rm -rf obj/* main myos* isodir/
 
 -include $(DEP)
--include $(TESTDEP)
