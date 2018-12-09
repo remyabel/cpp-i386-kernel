@@ -18,7 +18,7 @@ matrix:
               - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 before_install:
     - sudo apt-get install -y nasm
-    - pip install conan
+    - sudo pip install --upgrade conan
     - conan user
 install:
     - bash build-toolchain.sh
