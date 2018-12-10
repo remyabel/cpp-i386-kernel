@@ -1,10 +1,9 @@
 language: cpp
 compiler: gcc
+services: docker
 dist: trusty
 cache:
     ccache: true
-    directories:
-        - $HOME/cross-install
 matrix:
     include:
         - os: linux
@@ -17,15 +16,12 @@ matrix:
           env:
               - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 before_install:
-    - sudo apt-get install -y nasm
     - sudo pip install --upgrade conan
     - conan user
 install:
-    - travis_wait 40 bash build-toolchain.sh
-    - export PATH="$HOME/cross-install/bin:$PATH" CC="i686-elf-gcc" CXX="i686-elf-g++"
-
+    - docker pull remyabel/i686-cross-gcc
 script:
-    - cd "$TRAVIS_BUILD_DIR" && mkdir -p obj && make main
+    - docker run -it -v "$TRAVIS_BUILD_DIR":/app remyabel/i686-cross-gcc /bin/sh -c "mkdir -p /app/obj; make -C /app main"
     - eval "${MATRIX_EVAL}"
     - cd "$TRAVIS_BUILD_DIR" && cd test && mkdir build && cd build
     - conan install ..
