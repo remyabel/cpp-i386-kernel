@@ -21,7 +21,7 @@ before_install:
     - sudo pip install --upgrade conan
     - conan user
 install:
-    - bash build-toolchain.sh
+    - travis_wait bash build-toolchain.sh
     - export PATH="$HOME/cross-install/bin:$PATH" CC="i686-elf-gcc" CXX="i686-elf-g++"
 
 script:
