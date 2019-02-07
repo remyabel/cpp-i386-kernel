@@ -1,5 +1,7 @@
 # Bare Bones i386 kernel
 
+If you are viewing this on GitHub, this is only a mirror. Please visit [GitLab](https://gitlab.com/remyabel/cpp-i386-kernel).
+
 This is a restored back-up that's about 300~ commits behind.
 
 ## Prerequisites
