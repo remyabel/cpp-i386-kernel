@@ -54,9 +54,8 @@ This will create an ISO from the binary and open it up in Qemu.
 Building the tests require CMake and Conan (to grab the Catch2 library). Use the following commands:
 
 ```
-cd test && mkdir build && cd build
-conan install ..
-cmake ..
-cmake --build . -- -j2
-./bin/cpp-i386-kernel-tests
+conan install -if build-output
+cmake -H. -Bbuild-output 
+cmake --build build-output -- -j2
+./build-output/bin/cpp-i386-kernel-tests
 ```
