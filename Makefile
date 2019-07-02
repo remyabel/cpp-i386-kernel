@@ -1,5 +1,5 @@
-CXX = i686-elf-g++
-CC = i686-elf-gcc
+CXX = /home/tom/cross-install/bin/i686-elf-g++
+CC = /home/tom/cross-install/bin/i686-elf-gcc
 AS = nasm
 CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti
 CCFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding
