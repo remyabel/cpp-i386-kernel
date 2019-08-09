@@ -5,9 +5,7 @@ project(Cpp-i386-kernel CXX)
 set(STANDARDESE_TOOL ${CMAKE_SOURCE_DIR}/standardese)
 include(${CMAKE_SOURCE_DIR}/standardese-config.cmake)
 
-set(include_dirs
-    include/
-    include/kstd)
+set(include_dirs include/ include/kstd)
 
 set(headers
     include/multiboot2.hpp
@@ -25,5 +23,8 @@ set(headers
     include/kstd/utilities.hpp
     include/kstd/char_traits.hpp)
 
-standardese_generate(standardese INCLUDE_DIRECTORY ${include_dirs}
-                     INPUT ${headers})
+standardese_generate(standardese
+                     INCLUDE_DIRECTORY
+                     ${include_dirs}
+                     INPUT
+                     ${headers})
