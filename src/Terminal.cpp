@@ -1,88 +1,80 @@
 #include <Terminal.hpp>
 
-extern "C"
-void putc(void *, char c) {
-    vga::terminal.put_char(c);
-}
+extern "C" void putc(void *, char c) { vga::terminal.put_char(c); }
 
 namespace vga {
-    Terminal terminal;
+Terminal terminal;
 
-    Terminal::Terminal() 
-        : row_(0), column_(0),
-        color_(make_color(color::white, color::black)),
-        buffer_(reinterpret_cast<uint16_t*>(0xB8000))
-    { 
-        init_printf(nullptr, putc);
-        clear();
+Terminal::Terminal()
+    : row_(0), column_(0), color_(make_color(color::white, color::black)),
+      buffer_(reinterpret_cast<uint16_t *>(0xB8000)) {
+    init_printf(nullptr, putc);
+    clear();
+}
+
+void Terminal::set_color(color c) { color_ = c; }
+
+void Terminal::write_char_at(char c, color color, size_t x, size_t y) {
+    const size_t index = y * columns + x;
+    buffer_[index] = make_colored_char(c, color);
+}
+
+void Terminal::put_char(char c) {
+    if (c == '\n') {
+        column_ = 0;
+        row_++;
+    } else {
+        write_char_at(c, color_, column_, row_);
+        column_++;
     }
 
-    void Terminal::set_color(color c) {
-        color_ = c;
+    if (column_ == columns) {
+        column_ = 0;
+        ++row_;
     }
 
-    void Terminal::write_char_at(char c, color color, size_t x, size_t y) {
-        const size_t index = y * columns + x;
-        buffer_[index] = make_colored_char(c, color);
-    }
+    if (row_ == rows) {
+        row_ = rows - 1;
 
-    void Terminal::put_char(char c) {
-        if (c == '\n') {
-            column_ = 0;
-            row_++;
-        } else {
-            write_char_at(c, color_, column_, row_);
-            column_++;
+        // Copy each line upwards
+        for (auto y = 0u; y < rows; y++) {
+            auto next_line_start = (y + 1) * columns;
+            auto next_line_end = ((y + 1) * columns) + columns;
+            auto current_line_start = y * columns;
+
+            kstd::copy(buffer_ + next_line_start, buffer_ + next_line_end,
+                       buffer_ + current_line_start);
         }
 
-        if (column_ == columns) {
-            column_ = 0;
-            ++row_;
-        }
-
-        if (row_ == rows) {
-            row_ = rows - 1;
-
-            // Copy each line upwards
-            for (auto y = 0u; y < rows; y++) {
-                auto next_line_start    = (y + 1) * columns;
-                auto next_line_end      = ((y + 1) * columns) + columns;
-                auto current_line_start = y * columns;
-
-                kstd::copy(buffer_ + next_line_start,
-                        buffer_ + next_line_end,
-                        buffer_ + current_line_start);
-            }
-
-            clear_line(rows - 1);
-
-
-        }
-
-        move_cursor();
+        clear_line(rows - 1);
     }
 
-    void Terminal::clear() {
-        for (auto y = 0u; y < rows; ++y) {
-            for (auto x = 0u; x < columns; ++x) {
-                write_char_at(' ', make_color(color::white, color::black), x, y);
-            }
-        }
-    }
+    move_cursor();
+}
 
-    void Terminal::clear_line(size_t row) {
+void Terminal::clear() {
+    for (auto y = 0u; y < rows; ++y) {
         for (auto x = 0u; x < columns; ++x) {
-            write_char_at(' ', make_color(color::white, color::black), x, row);
+            write_char_at(' ', make_color(color::white, color::black), x, y);
         }
-    }
-
-    void Terminal::move_cursor() {
-        auto position = (row_ * columns) + column_;
-
-        outb(index_register::underline_location, index_register::high_byte);
-        outb(index_register::underline_location + 1, static_cast<uint8_t>(position >> 8));
-
-        outb(index_register::underline_location, index_register::low_byte);
-        outb(index_register::underline_location + 1, static_cast<uint8_t>(position));
     }
 }
+
+void Terminal::clear_line(size_t row) {
+    for (auto x = 0u; x < columns; ++x) {
+        write_char_at(' ', make_color(color::white, color::black), x, row);
+    }
+}
+
+void Terminal::move_cursor() {
+    auto position = (row_ * columns) + column_;
+
+    outb(index_register::underline_location, index_register::high_byte);
+    outb(index_register::underline_location + 1,
+         static_cast<uint8_t>(position >> 8));
+
+    outb(index_register::underline_location, index_register::low_byte);
+    outb(index_register::underline_location + 1,
+         static_cast<uint8_t>(position));
+}
+} // namespace vga

@@ -39,41 +39,32 @@ extern "C" void isr29();
 extern "C" void isr30();
 extern "C" void isr31();
 
-struct registers
-{
-    unsigned int gs, fs, es, ds;      /* pushed the segs last */
-    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  /* pushed by 'pusha' */
-    unsigned int int_no, err_code;    /* our 'push byte #' and ecodes do this */
-    unsigned int eip, cs, eflags, useresp, ss;   /* pushed by the processor automatically */ 
+struct registers {
+    unsigned int gs, fs, es, ds; /* pushed the segs last */
+    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax; /* pushed by 'pusha' */
+    unsigned int int_no, err_code; /* our 'push byte #' and ecodes do this */
+    unsigned int eip, cs, eflags, useresp,
+        ss; /* pushed by the processor automatically */
 };
 
-constexpr kstd::array<kstd::string_view, 31> exception_msgs = {{
-	"Divide by zero exception",
-	"Debug exception",
-	"Non-maskable interrupt exception",
-	"Breakpoint exception",
-	"Detected overflow exception",
-	"Out of bounds exception",
-	"Invalid operation code exception",
-	"No coprocessor exception",
-	"Double fault exception ",
-	"Coprocessor segment overrun exception",
-	"Bad TSS exception ",
-	"Segment not present exception ",
-	"Stack fault exception ",
-	"General protection fault exception ",
-	"Page fault ",
-	"Unknown interrupt exception",
-	"Coprocessor fault exception",
-	"Alignment check exception",
-	"Machine check exception"
-}};
+constexpr kstd::array<kstd::string_view, 31> exception_msgs = {
+    {"Divide by zero exception", "Debug exception",
+     "Non-maskable interrupt exception", "Breakpoint exception",
+     "Detected overflow exception", "Out of bounds exception",
+     "Invalid operation code exception", "No coprocessor exception",
+     "Double fault exception ", "Coprocessor segment overrun exception",
+     "Bad TSS exception ", "Segment not present exception ",
+     "Stack fault exception ", "General protection fault exception ",
+     "Page fault ", "Unknown interrupt exception",
+     "Coprocessor fault exception", "Alignment check exception",
+     "Machine check exception"}};
 
-extern "C"
-void fault_handler(registers *reg) {
-    printf("Interrupt called #%d: %s\n", reg->int_no, exception_msgs[reg->int_no].data());
+extern "C" void fault_handler(registers *reg) {
+    printf("Interrupt called #%d: %s\n", reg->int_no,
+           exception_msgs[reg->int_no].data());
 
-    for (;;);
+    for (;;)
+        ;
 }
 
 #endif

@@ -3,17 +3,15 @@
 /* This should segfault if global constructors are not
  * handled properly.
  */
-class A
-{
-    public: 
-        A() {printf("A()\n");}
-        void anything() {printf("No crash. Global constructors work.\n");}
+class A {
+  public:
+    A() { printf("A()\n"); }
+    void anything() { printf("No crash. Global constructors work.\n"); }
 };
- 
+
 A g_a;
- 
-void global_constructor_test(void)
-{
+
+void global_constructor_test(void) {
     A *p_a = &g_a;
-    p_a->anything();     // <---- segfault
+    p_a->anything(); // <---- segfault
 }

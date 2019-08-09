@@ -16,12 +16,10 @@ TEST_CASE("array forms a valid range and works w/ range functions", "[array]") {
     REQUIRE(*arr.data() == 1);
 
     array<int, 10> arr2;
-    copy(arr.begin(), arr.end(),
-            arr2.begin());
+    copy(arr.begin(), arr.end(), arr2.begin());
     REQUIRE(*arr2.begin() == 1);
 
-    copy(arr.begin(), arr.end(),
-            next(arr2.begin(), 5));
+    copy(arr.begin(), arr.end(), next(arr2.begin(), 5));
     REQUIRE(*(arr2.begin() + 5) == 1);
 
     REQUIRE(arr[0] == 1);

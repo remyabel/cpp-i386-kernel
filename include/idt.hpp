@@ -1,9 +1,9 @@
 #ifndef IDT_HPP
 #define IDT_HPP
 
+#include <array.hpp>
 #include <stddef.h>
 #include <stdint.h>
-#include <array.hpp>
 
 #include <Terminal.hpp>
 
@@ -36,11 +36,11 @@ class Idt {
         uint16_t base_low = reinterpret_cast<uintptr_t>(isr);
         uint16_t base_high = reinterpret_cast<uintptr_t>(isr) >> 16;
 
-        idt_create_descriptor(index, { base_low, 0x08, 0, 0x8E, base_high });
+        idt_create_descriptor(index, {base_low, 0x08, 0, 0x8E, base_high});
     }
 
     void idt_init() {
-        idt_ptr.size = (idt_table.size() * sizeof(idt_entry)) - 1; 
+        idt_ptr.size = (idt_table.size() * sizeof(idt_entry)) - 1;
         idt_ptr.pointer = idt_table.data();
 
         idt_create_descriptor(0, isr0);
@@ -75,16 +75,15 @@ class Idt {
         idt_create_descriptor(29, isr29);
         idt_create_descriptor(30, isr30);
         idt_create_descriptor(31, isr31);
-        
+
         idt_set(idt_ptr.pointer, idt_ptr.size);
     }
 
-public:
+  public:
     Idt() {
         idt_table = {};
         idt_init();
     }
-
 };
 
 #endif
