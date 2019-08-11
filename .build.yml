@@ -1,0 +1,32 @@
+image: alpine/edge
+packages:
+    - python3
+    - python3-dev
+    - py3-setuptools
+    - libc6-compat
+    - build-base
+    - automake
+    - autoconf
+    - cmake
+    - docker
+sources:
+    - https://git.sr.ht/~remyabel/cpp-i386-kernel
+task:
+    - setup: |
+        cd cpp-i386-kernel
+        # See https://todo.sr.ht/~sircmpwn/builds.sr.ht/223 for why this is
+        # needed.
+        sudo nohup dockerd --bip 172.18.0.1/16 &
+        sleep 10
+        sudo docker pull remyabel/i686-cross-gcc
+    - build: |
+        cd cpp-i386-kernel
+        sudo docker run -it -v "$PWD":/app remyabel/i686-cross-gcc /bin/sh -c "mkdir -p /app/obj; make -C /app main"
+    - test: |
+        cd cpp-i386-kernel/test
+        PATH=/home/build/.local/bin:$PATH
+        export PATH
+        conan install -if build-output
+        cmake -H. -Bbuild-output 
+        cmake --build build-output -- -j2
+        ./build-output/bin/cpp-i386-kernel-tests
