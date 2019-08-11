@@ -11,7 +11,7 @@ packages:
     - docker
 sources:
     - https://git.sr.ht/~remyabel/cpp-i386-kernel
-task:
+tasks:
     - setup: |
         cd cpp-i386-kernel
         # See https://todo.sr.ht/~sircmpwn/builds.sr.ht/223 for why this is
