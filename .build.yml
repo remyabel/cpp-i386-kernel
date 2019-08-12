@@ -30,7 +30,7 @@ tasks:
         cd cpp-i386-kernel/test
         PATH=/home/build/.local/bin:$PATH
         export PATH
-        conan install -if build-output
+        conan install -if build-output .
         cmake -H. -Bbuild-output 
-        cmake --build build-output -- -j2
+        cmake --build build-output -- -j4
         ./build-output/bin/cpp-i386-kernel-tests
