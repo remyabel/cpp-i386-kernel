@@ -4,38 +4,34 @@
 #include <iterator.hpp>
 
 TEST_CASE("basic_string_view constructors", "[basic_string_view]") {
-    using namespace kstd;
-
     SECTION("default construct") {
-        string_view s;
+        kstd::string_view s;
 
         REQUIRE(s.length() == 0);
         REQUIRE(s.data() == nullptr);
     }
 
     SECTION("takes const char*") {
-        string_view s("hello");
+        kstd::string_view s("hello");
 
         REQUIRE(s.length() == 5);
-        REQUIRE(char_traits<char>::compare("hello", s.data(), 5) == 0);
+        REQUIRE(kstd::char_traits<char>::compare("hello", s.data(), 5) == 0);
 
-        string_view s2("long string", 4);
+        kstd::string_view s2("long string", 4);
 
         REQUIRE(s2.length() == 4);
-        REQUIRE(char_traits<char>::compare("long", s2.data(), 4) == 0);
+        REQUIRE(kstd::char_traits<char>::compare("long", s2.data(), 4) == 0);
     }
 }
 
 TEST_CASE("basic_string_view interface", "[basic_string_view.interface]") {
-    using namespace kstd;
-
-    string_view s{"hello"};
-    string_view s2{"long string", 4};
+    kstd::string_view s{"hello"};
+    kstd::string_view s2{"long string", 4};
 
     SECTION("iterators") {
         REQUIRE(s.begin() == s.cbegin());
         REQUIRE(*s.begin() == 'h');
-        REQUIRE(next(s.begin(), 5) == s.end());
+        REQUIRE(kstd::next(s.begin(), 5) == s.end());
         REQUIRE(s.size() == s.length());
 
         REQUIRE(s2.size() == 4);
@@ -44,7 +40,7 @@ TEST_CASE("basic_string_view interface", "[basic_string_view.interface]") {
         REQUIRE(s.begin() != s2.begin());
     }
 
-    string_view empty;
+    kstd::string_view empty;
 
     SECTION("capacity") {
         REQUIRE(!s.empty());
