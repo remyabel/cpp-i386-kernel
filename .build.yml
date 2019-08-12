@@ -30,6 +30,7 @@ tasks:
         cd cpp-i386-kernel/test
         PATH=/home/build/.local/bin:$PATH
         export PATH
+        conan profile update settings.compiler.libcxx=libstdc++11 default
         conan install -if build-output .
         cmake -H. -Bbuild-output 
         cmake --build build-output -- -j4
