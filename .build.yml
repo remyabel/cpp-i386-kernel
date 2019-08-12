@@ -16,6 +16,7 @@ tasks:
         cd cpp-i386-kernel
         # See https://todo.sr.ht/~sircmpwn/builds.sr.ht/223 for why this is
         # needed.
+        sudo mount -t tmpfs -o size=4G /dev/null /dev/shm
         sudo nohup dockerd --bip 172.18.0.1/16 &
         sleep 100
         sudo docker pull remyabel/i686-cross-gcc
