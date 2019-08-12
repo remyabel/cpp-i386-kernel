@@ -21,7 +21,6 @@ tasks:
         sleep 2
         sudo nohup dockerd --bip 172.18.0.1/16 &
         sleep 10
-        sudo usermod -aG docker $(whoami)
         docker pull remyabel/i686-cross-gcc
     - build: |
         cd cpp-i386-kernel
