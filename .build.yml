@@ -14,6 +14,7 @@ sources:
 tasks:
     - setup: |
         cd cpp-i386-kernel
+        pip3 install -U --user conan
         # See https://todo.sr.ht/~sircmpwn/builds.sr.ht/223 for why this is
         # needed.
         sudo mount -t tmpfs -o size=4G /dev/null /dev/shm
