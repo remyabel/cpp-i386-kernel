@@ -10,10 +10,10 @@ CRTBEGIN_OBJ := $(shell $(CXX) $(CXXFLAGS) -print-file-name=crtbegin.o)
 CRTEND_OBJ := $(shell $(CXX) $(CXXFLAGS) -print-file-name=crtend.o)
 CRTN_OBJ = obj/crtn.o
 
-FILTER_OUT := src/crti.s src/crtn.s
-SRC := $(filter-out $(FILTER_OUT), $(wildcard src/*.cpp src/*.s))
+FILTER_OUT := src/crti.nasm src/crtn.nasm
+SRC := $(filter-out $(FILTER_OUT), $(wildcard src/*.cpp src/*.nasm))
 
-TMP_OBJ := $(patsubst src/%, obj/%, $(SRC:.s=.o))
+TMP_OBJ := $(patsubst src/%, obj/%, $(SRC:.nasm=.o))
 OBJ := obj/main.o $(filter-out obj/main.o,$(patsubst src/%, obj/%, $(TMP_OBJ:.cpp=.o)))
 
 DEP := $(OBJ:%.o=%.d)
@@ -34,7 +34,7 @@ iso:
 qemu:
 	qemu-system-i386 -cdrom myos.iso
 
-obj/%.o: src/%.s
+obj/%.o: src/%.nasm
 	$(AS) -felf32 $< -o $@
 
 obj/%.o: src/%.cpp
