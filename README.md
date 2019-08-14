@@ -2,16 +2,6 @@
 
 This is a restored back-up that's about 300~ commits behind.
 
-## Prerequisites
-
-This project uses [standardese](https://github.com/foonathan/standardese) for documentation. Please use the link
-for instructions on obtaining it. The easiest way is to use Docker:
-
-```
-docker pull foonathan/standardese_dev
-docker run -v "/path/to/standardese/source:/root/standardese" -v "$(pwd):/root/output" foonathan/standardese_dev
-```
-
 ## Building
 
 You have two options. You can either use Docker or the `build-toolchain.sh` script
