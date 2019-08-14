@@ -34,12 +34,11 @@ standardese_generate(standardese
                      INPUT
                      ${headers})
 
-# We specify the the libraries as OBJECT libraries so that they are compiled
-# but not linked into archives. This allows us to specify a specific order for
-# the object files later. Also note that it is important that the file list
-# below be preserved. Changing the order can cause booting to fail.
-add_library(cpp_sources
-            OBJECT
+# We specify the the libraries as OBJECT libraries so that they are compiled but
+# not linked into archives. This allows us to specify a specific order for the
+# object files later. Also note that it is important that the file list below be
+# preserved. Changing the order can cause booting to fail.
+add_library(cpp_sources OBJECT
             src/main.cpp
             src/cxxabi.cpp
             src/global_constructor_test.cpp

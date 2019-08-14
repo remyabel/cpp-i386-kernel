@@ -7,7 +7,8 @@
 TEST_CASE("iterator operations for random access iterator", "[iterator.rai]") {
     kstd::string_view s{"hello", sizeof("hello")};
 
-    REQUIRE(kstd::distance(s.data(), s.data() + sizeof("hello")) == sizeof("hello"));
+    REQUIRE(kstd::distance(s.data(), s.data() + sizeof("hello")) ==
+            sizeof("hello"));
 
     const char *non_owning_p = s.data();
 
