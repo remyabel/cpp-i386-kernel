@@ -28,7 +28,7 @@ docker pull remyabel/i686-cross-gcc
 Then simply mount this repo and build it:
 
 ```shell
-docker run -it -v "$PATH_TO_REPO":/app remyabel/i686-cross-gcc /bin/sh -c "mkdir -p /app/obj; make -C /app main"
+docker run -it --user $(id -u) -v "$PATH_TO_REPO":/app remyabel/i686-cross-gcc /bin/sh -c "mkdir -p /app/obj; make -C /app main"
 ```
 
 ### Local toolchain and make
