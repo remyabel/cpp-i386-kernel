@@ -66,14 +66,38 @@ set(
   "<CMAKE_LINKER> -T ${CMAKE_SOURCE_DIR}/linker.ld -ffreestanding -O2 -nostdlib <FLAGS> <CMAKE_CXX_LINK_FLAGS> <LINK_FLAGS> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>"
   )
 
+execute_process(COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=crtbegin.o
+                OUTPUT_VARIABLE CRTBEGIN)
+execute_process(COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=crtend.o
+                OUTPUT_VARIABLE CRTEND)
+
+# Remove trailing newline from output.
+string(STRIP "${CRTBEGIN}" CRTBEGIN)
+string(STRIP "${CRTEND}" CRTEND)
+
+# Inform CMake that this is a prebuilt object.
+set_source_files_properties(${CRTBEGIN}
+                            PROPERTIES
+                            EXTERNAL_OBJECT
+                            true
+                            GENERATED
+                            true)
+
+set_source_files_properties(${CRTEND}
+                            PROPERTIES
+                            EXTERNAL_OBJECT
+                            true
+                            GENERATED
+                            true)
+
 # As stated previously, the order of these should not change.
 add_executable(kernel
                $<TARGET_OBJECTS:crti>
-               /home/tom/cross-install/lib/gcc/i686-elf/9.1.0/crtbegin.o
+               ${CRTBEGIN}
                $<TARGET_OBJECTS:boot>
                $<TARGET_OBJECTS:cpp_sources>
                $<TARGET_OBJECTS:asm_sources>
                $<TARGET_OBJECTS:tinyprintf>
-               /home/tom/cross-install/lib/gcc/i686-elf/9.1.0/crtend.o
+               ${CRTEND}
                $<TARGET_OBJECTS:crtn>)
 target_link_libraries(kernel PUBLIC gcc)
