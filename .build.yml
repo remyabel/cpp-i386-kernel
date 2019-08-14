@@ -28,8 +28,8 @@ tasks:
         sudo docker run -it --user $(id -u) -v "$PWD":/app remyabel/i686-cross-gcc \
             /bin/sh -c "mkdir -p /app/obj; make -C /app main"
         sudo docker run -it --user $(id -u) -v "$PWD":/app remyabel/i686-cross-gcc \
-            /bin/sh -c "env CROSS_GCC_PREFIX=/home/tom/cross-install/ cmake" \
-        " -DCMAKE_TOOLCHAIN_FILE=$PWD/elf-toolchain.cmake -H. -Bbuild-output;" \
+            /bin/sh -c "env CROSS_GCC_PREFIX=/home/tom/cross-install/ cmake"\
+        " -DCMAKE_TOOLCHAIN_FILE=$PWD/elf-toolchain.cmake -H. -Bbuild-output;"\
         "cmake --build build-output -- -j4"
     - test: |
         cd cpp-i386-kernel/test
