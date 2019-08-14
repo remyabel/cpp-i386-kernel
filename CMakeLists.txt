@@ -101,3 +101,10 @@ add_executable(kernel
                ${CRTEND}
                $<TARGET_OBJECTS:crtn>)
 target_link_libraries(kernel PUBLIC gcc)
+
+# make iso expects the output binary to be in this directory with this name.
+set_target_properties(kernel
+                      PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                 "${PROJECT_SOURCE_DIR}"
+                                 OUTPUT_NAME
+                                 "myos.bin")
