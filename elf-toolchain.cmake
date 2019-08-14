@@ -1,0 +1,24 @@
+if (NOT DEFINED ENV{CROSS_GCC_PREFIX})
+    set(ENV{CROSS_GCC_PREFIX} /usr/local)
+endif()
+
+set(TRIPLE "i686-elf")
+set(CMAKE_CXX_COMPILER_TARGET ${TRIPLE})
+set(CMAKE_C_COMPILER_TARGET ${TRIPLE})
+
+set(CROSS_GCC_BIN $ENV{CROSS_GCC_PREFIX}/bin)
+
+set(CMAKE_C_COMPILER ${CROSS_GCC_BIN}/i686-elf-gcc)
+set(CMAKE_CXX_COMPILER ${CROSS_GCC_BIN}/i686-elf-g++)
+set(CMAKE_AR ${CROSS_GCC_BIN}/i686-elf-ar)
+set(CMAKE_LINKER ${CROSS_GCC_BIN}/i686-elf-g++)
+
+# Tell CMake where to find binutils et al.
+set(CMAKE_FIND_ROOT_PATH ${CROSS_GCC_BIN})
+
+# Skip the compiler tests.
+set(CMAKE_C_COMPILER_WORKS 1)
+set(CMAKE_CXX_COMPILER_WORKS 1)
+
+set(CMAKE_ASM_NASM_COMPILER /usr/bin/nasm)
+set(CMAKE_ASM_NASM_OBJECT_FORMAT "elf32")

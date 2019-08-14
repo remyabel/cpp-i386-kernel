@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.14.5)
 
-project(Cpp-i386-kernel CXX)
+project(Cpp-i386-kernel CXX C)
+
+enable_language(ASM_NASM)
+
+set(CMAKE_CXX_STANDARD 17)
 
 set(STANDARDESE_TOOL ${CMAKE_SOURCE_DIR}/standardese)
 include(${CMAKE_SOURCE_DIR}/standardese-config.cmake)
@@ -15,6 +19,7 @@ set(headers
     include/idt.hpp
     include/Terminal.hpp
     include/Terminal_iterator.hpp
+    include/tinyprintf.h
     include/kstd/algorithm.hpp
     include/kstd/basic_string_view.hpp
     include/kstd/string.hpp
@@ -28,3 +33,48 @@ standardese_generate(standardese
                      ${include_dirs}
                      INPUT
                      ${headers})
+
+# We specify the the libraries as OBJECT libraries so that they are compiled
+# but not linked into archives. This allows us to specify a specific order for
+# the object files later. Also note that it is important that the file list
+# below be preserved. Changing the order can cause booting to fail.
+add_library(cpp_sources
+            OBJECT
+            src/main.cpp
+            src/cxxabi.cpp
+            src/global_constructor_test.cpp
+            src/pure_virtual.cpp
+            src/local_static_variable_test.cpp
+            src/Terminal.cpp)
+target_include_directories(cpp_sources PUBLIC include/ include/kstd)
+target_compile_options(cpp_sources PRIVATE "-ffreestanding" "-nostdlib" "-O2")
+
+add_library(crti OBJECT src/crti.nasm)
+add_library(crtn OBJECT src/crtn.nasm)
+add_library(boot OBJECT src/boot.nasm)
+
+add_library(asm_sources OBJECT src/isr.nasm src/descriptor.nasm)
+
+add_library(tinyprintf OBJECT src/tinyprintf.c)
+target_include_directories(tinyprintf PUBLIC include/)
+set_target_properties(tinyprintf PROPERTIES LINKER_LANGUAGE C)
+target_compile_options(tinyprintf PRIVATE "-ffreestanding" "-nostdlib" "-O2")
+
+# This is probably unnecessary. But for now, it's convenient to allow us to put
+# the flags at the beginning rather than the end.
+set(
+  CMAKE_CXX_LINK_EXECUTABLE
+  "<CMAKE_LINKER> -T ${CMAKE_SOURCE_DIR}/linker.ld -ffreestanding -O2 -nostdlib <FLAGS> <CMAKE_CXX_LINK_FLAGS> <LINK_FLAGS> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>"
+  )
+
+# As stated previously, the order of these should not change.
+add_executable(kernel
+               $<TARGET_OBJECTS:crti>
+               /home/tom/cross-install/lib/gcc/i686-elf/9.1.0/crtbegin.o
+               $<TARGET_OBJECTS:boot>
+               $<TARGET_OBJECTS:cpp_sources>
+               $<TARGET_OBJECTS:asm_sources>
+               $<TARGET_OBJECTS:tinyprintf>
+               /home/tom/cross-install/lib/gcc/i686-elf/9.1.0/crtend.o
+               $<TARGET_OBJECTS:crtn>)
+target_link_libraries(kernel PUBLIC gcc)
