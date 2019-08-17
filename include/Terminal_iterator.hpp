@@ -9,17 +9,17 @@
 #include <Terminal.hpp>
 
 namespace vga {
-template <class charT = char, class traits = kstd::char_traits<charT>>
+template <class T, class charT = char, class traits = kstd::char_traits<charT>>
 class Terminal_output_iterator {
   public:
     using iterator_category = kstd::output_iterator_tag;
     using value_type = void;
-    using difference_type = void;
+    using difference_type = ptrdiff_t;
     using pointer = void;
     using reference = void;
     using char_type = charT;
     using traits_type = traits;
-    using terminal_type = Terminal;
+    using terminal_type = Terminal<charT, traits>;
 
     Terminal_output_iterator(terminal_type &t)
         : out_terminal(kstd::addressof(t)), delim(nullptr) {}
@@ -28,10 +28,10 @@ class Terminal_output_iterator {
 
     // Destructor/copy constructor are implicitly generated
 
-    Terminal_output_iterator &operator=(char value) {
-        printf("%c", value);
+    Terminal_output_iterator &operator=(const T& value) {
+        *out_terminal << value;
         if (delim) {
-            printf(delim);
+            *out_terminal << delim;
         }
         return *this;
     }
@@ -41,7 +41,7 @@ class Terminal_output_iterator {
     Terminal_output_iterator &operator++(int) { return *this; }
 
   private:
-    Terminal *out_terminal;
+    terminal_type *out_terminal;
     const charT *delim;
 };
 } // namespace vga

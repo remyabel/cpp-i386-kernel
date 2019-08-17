@@ -58,6 +58,7 @@ colored_char make_colored_char(char code_byte, color attribute) {
 }
 } // namespace
 
+template <class charT, class traits = kstd::char_traits<charT>>
 class Terminal {
     size_t row_;
     size_t column_;
@@ -83,7 +84,19 @@ class Terminal {
     void move_cursor();
 };
 
-extern Terminal terminal;
+template<class charT, class traits>
+inline Terminal<charT, traits>& operator<<(Terminal<charT, traits>& t, charT c) {
+    printf("%c", c);
+    return t;
+}
+
+template<class charT, class traits>
+inline Terminal<charT, traits>& operator<<(Terminal<charT, traits>& t, const charT* s) {
+    printf("%s", s);
+    return t;
+}
+
+extern Terminal<char, kstd::char_traits<char>> terminal;
 } // namespace vga
 
 #endif

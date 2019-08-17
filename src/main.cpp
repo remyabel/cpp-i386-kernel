@@ -25,6 +25,8 @@ extern "C" void kernel_main(unsigned long magic, unsigned long addr) {
                vga::Terminal_output_iterator<char>(vga::terminal, ""));
     printf("\n");
 
+    vga::terminal << "Testing operator<<\n";
+
     printf("Initialized IDT\n");
 
     global_constructor_test();

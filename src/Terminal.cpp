@@ -3,23 +3,27 @@
 extern "C" void putc(void *, char c) { vga::terminal.put_char(c); }
 
 namespace vga {
-Terminal terminal;
+Terminal<char, kstd::char_traits<char>> terminal;
 
-Terminal::Terminal()
+template <class charT, class traits>
+Terminal<charT, traits>::Terminal()
     : row_(0), column_(0), color_(make_color(color::white, color::black)),
       buffer_(reinterpret_cast<uint16_t *>(0xB8000)) {
     init_printf(nullptr, putc);
     clear();
 }
 
-void Terminal::set_color(color c) { color_ = c; }
+template <class charT, class traits>
+void Terminal<charT, traits>::set_color(color c) { color_ = c; }
 
-void Terminal::write_char_at(char c, color color, size_t x, size_t y) {
+template <class charT, class traits>
+void Terminal<charT, traits>::write_char_at(char c, color color, size_t x, size_t y) {
     const size_t index = y * columns + x;
     buffer_[index] = make_colored_char(c, color);
 }
 
-void Terminal::put_char(char c) {
+template <class charT, class traits>
+void Terminal<charT, traits>::put_char(char c) {
     if (c == '\n') {
         column_ = 0;
         row_++;
@@ -52,7 +56,8 @@ void Terminal::put_char(char c) {
     move_cursor();
 }
 
-void Terminal::clear() {
+template <class charT, class traits>
+void Terminal<charT, traits>::clear() {
     for (auto y = 0u; y < rows; ++y) {
         for (auto x = 0u; x < columns; ++x) {
             write_char_at(' ', make_color(color::white, color::black), x, y);
@@ -60,13 +65,15 @@ void Terminal::clear() {
     }
 }
 
-void Terminal::clear_line(size_t row) {
+template <class charT, class traits>
+void Terminal<charT, traits>::clear_line(size_t row) {
     for (auto x = 0u; x < columns; ++x) {
         write_char_at(' ', make_color(color::white, color::black), x, row);
     }
 }
 
-void Terminal::move_cursor() {
+template <class charT, class traits>
+void Terminal<charT, traits>::move_cursor() {
     auto position = (row_ * columns) + column_;
 
     outb(index_register::underline_location, index_register::high_byte);
