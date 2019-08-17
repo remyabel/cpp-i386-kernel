@@ -21,8 +21,7 @@ struct index_register {
     static constexpr auto underline_location = 0x3D4u;
 };
 
-template <class charT, class traits = kstd::char_traits<charT>>
-class Terminal {
+template <class charT, class traits = kstd::char_traits<charT>> class Terminal {
     size_t row_;
     size_t column_;
     internal::color color_;
@@ -47,14 +46,16 @@ class Terminal {
     void move_cursor();
 };
 
-template<class charT, class traits>
-inline Terminal<charT, traits>& operator<<(Terminal<charT, traits>& t, charT c) {
+template <class charT, class traits>
+inline Terminal<charT, traits> &operator<<(Terminal<charT, traits> &t,
+                                           charT c) {
     printf("%c", c);
     return t;
 }
 
-template<class charT, class traits>
-inline Terminal<charT, traits>& operator<<(Terminal<charT, traits>& t, const charT* s) {
+template <class charT, class traits>
+inline Terminal<charT, traits> &operator<<(Terminal<charT, traits> &t,
+                                           const charT *s) {
     printf("%s", s);
     return t;
 }

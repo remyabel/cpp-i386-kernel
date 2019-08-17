@@ -28,7 +28,7 @@ class Terminal_output_iterator {
 
     // Destructor/copy constructor are implicitly generated
 
-    Terminal_output_iterator &operator=(const T& value) {
+    Terminal_output_iterator &operator=(const T &value) {
         *out_terminal << value;
         if (delim) {
             *out_terminal << delim;
