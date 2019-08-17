@@ -31,7 +31,7 @@ template <> class char_traits<char> {
 
     static constexpr size_t length(const char_type *s) {
         const char_type *p = s;
-        while (*p) {
+        while (*p != 0) {
             p++;
         }
         return (p - s);
@@ -43,7 +43,7 @@ template <> class char_traits<char> {
             return 0;
         }
 
-        for (; count; --count, ++s1, ++s2) {
+        for (; count != 0U; --count, ++s1, ++s2) {
             if (lt(*s1, *s2)) {
                 return -1;
             }

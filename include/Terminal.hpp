@@ -16,14 +16,14 @@
 
 namespace vga {
 struct index_register {
-    static constexpr auto low_byte = 15u;
-    static constexpr auto high_byte = 14u;
-    static constexpr auto underline_location = 0x3D4u;
+    static constexpr auto low_byte = 15U;
+    static constexpr auto high_byte = 14U;
+    static constexpr auto underline_location = 0x3D4U;
 };
 
 template <class charT, class traits = kstd::char_traits<charT>> class Terminal {
-    size_t row_;
-    size_t column_;
+    size_t row_{0};
+    size_t column_{0};
     internal::color color_;
     uint16_t *buffer_;
 

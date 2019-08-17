@@ -28,7 +28,7 @@ struct colored_char {
     char code_byte;
     color attribute;
 
-    operator uint16_t() const {
+    explicit operator uint16_t() const {
         return (code_byte | static_cast<uint16_t>(attribute) << 8);
     }
 };

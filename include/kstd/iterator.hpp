@@ -51,7 +51,7 @@ constexpr void advance(InputIterator &i, Distance n) {
 
 template <class InputIterator, class Distance>
 constexpr void advance(InputIterator &i, Distance n,
-                       random_access_iterator_tag) {
+                       random_access_iterator_tag /*unused*/) {
     i += n;
 }
 
@@ -65,7 +65,8 @@ distance(InputIterator first, InputIterator last) {
 
 template <class InputIterator>
 constexpr typename iterator_traits<InputIterator>::difference_type
-distance(InputIterator first, InputIterator last, random_access_iterator_tag) {
+distance(InputIterator first, InputIterator last,
+         random_access_iterator_tag /*unused*/) {
     return (last - first);
 }
 

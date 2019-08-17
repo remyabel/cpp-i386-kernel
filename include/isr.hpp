@@ -59,12 +59,14 @@ constexpr kstd::array<kstd::string_view, 31> exception_msgs = {
      "Coprocessor fault exception", "Alignment check exception",
      "Machine check exception"}};
 
+// NOLINTNEXTLINE
 extern "C" void fault_handler(registers *reg) {
     printf("Interrupt called #%d: %s\n", reg->int_no,
            exception_msgs[reg->int_no].data());
 
-    for (;;)
+    for (;;) {
         ;
+    }
 }
 
 #endif

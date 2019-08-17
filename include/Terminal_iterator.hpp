@@ -21,7 +21,7 @@ class Terminal_output_iterator {
     using traits_type = traits;
     using terminal_type = Terminal<charT, traits>;
 
-    Terminal_output_iterator(terminal_type &t)
+    explicit Terminal_output_iterator(terminal_type &t)
         : out_terminal(kstd::addressof(t)), delim(nullptr) {}
     Terminal_output_iterator(terminal_type &t, const charT *delimiter)
         : out_terminal(kstd::addressof(t)), delim(delimiter) {}

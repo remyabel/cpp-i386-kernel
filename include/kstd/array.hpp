@@ -23,25 +23,27 @@ template <class T, size_t N> struct array {
     // iterators
     constexpr iterator begin() noexcept { return iterator(elems_); }
 
-    constexpr const_iterator begin() const noexcept {
+    [[nodiscard]] constexpr const_iterator begin() const noexcept {
         return const_iterator(elems_);
     }
 
     constexpr iterator end() noexcept { return iterator(elems_ + N); }
 
-    constexpr const_iterator end() const noexcept {
+    [[nodiscard]] constexpr const_iterator end() const noexcept {
         return const_iterator(elems_ + N);
     }
 
-    constexpr bool empty() const noexcept { return begin() == end(); }
+    [[nodiscard]] constexpr bool empty() const noexcept {
+        return begin() == end();
+    }
 
     // capacity
-    constexpr size_type size() const noexcept { return N; }
+    [[nodiscard]] constexpr size_type size() const noexcept { return N; }
 
     // element access
     constexpr T *data() noexcept { return elems_; }
 
-    constexpr const T *data() const noexcept { return elems_; }
+    [[nodiscard]] constexpr const T *data() const noexcept { return elems_; }
 
     constexpr reference operator[](size_type n) { return *(begin() + n); }
 

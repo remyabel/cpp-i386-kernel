@@ -1,0 +1,12 @@
+Checks: >
+  -*,
+  bugprone-*,
+  google-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -modernize-deprecated-headers
+
+HeaderFilterRegex: '.*'

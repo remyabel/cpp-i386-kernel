@@ -25,12 +25,13 @@ class basic_string_view {
     static constexpr size_type npos = size_type(-1);
 
     // [string.view.cons]
-    constexpr basic_string_view() noexcept : size_(0), data_(nullptr) {}
+    constexpr basic_string_view() noexcept :  data_(nullptr) {}
 
     constexpr basic_string_view(const basic_string_view &) noexcept = default;
     constexpr basic_string_view &
     operator=(const basic_string_view &) noexcept = default;
 
+    // NOLINTNEXTLINE
     constexpr basic_string_view(const charT *str)
         : size_(traits_type::length(str)), data_(str) {}
     constexpr basic_string_view(const charT *str, size_type len)
@@ -38,40 +39,40 @@ class basic_string_view {
 
     // [string.view.iterators]
 
-    constexpr const_iterator begin() const noexcept { return data_; }
+    [[nodiscard]] constexpr const_iterator begin() const noexcept { return data_; }
 
-    constexpr const_iterator cbegin() const noexcept { return begin(); }
+    [[nodiscard]] constexpr const_iterator cbegin() const noexcept { return begin(); }
 
-    constexpr const_iterator end() const noexcept { return begin() + size(); }
+    [[nodiscard]] constexpr const_iterator end() const noexcept { return begin() + size(); }
 
-    constexpr const_iterator cend() const noexcept { return end(); }
+    [[nodiscard]] constexpr const_iterator cend() const noexcept { return end(); }
 
     // [string.view.capacity]
-    constexpr size_type size() const noexcept { return size_; }
+    [[nodiscard]] constexpr size_type size() const noexcept { return size_; }
 
-    constexpr size_type length() const noexcept { return size_; }
+    [[nodiscard]] constexpr size_type length() const noexcept { return size_; }
 
-    constexpr bool empty() const noexcept { return size_ == 0; }
+    [[nodiscard]] constexpr bool empty() const noexcept { return size_ == 0; }
 
     // [string.view.access]
     constexpr const_reference operator[](size_type pos) const {
         return data_[pos];
     }
 
-    constexpr const_reference at(size_type pos) const {
-        // TODO: throw exception
+    [[nodiscard]] constexpr const_reference at(size_type pos) const {
+        // TODO(tom): throw exception
 
         return data_[pos];
     }
 
-    constexpr const_reference front() const { return data_[0]; }
+    [[nodiscard]] constexpr const_reference front() const { return data_[0]; }
 
-    constexpr const_reference back() const { return data_[size() - 1]; }
+    [[nodiscard]] constexpr const_reference back() const { return data_[size() - 1]; }
 
-    constexpr const_pointer data() const noexcept { return data_; }
+    [[nodiscard]] constexpr const_pointer data() const noexcept { return data_; }
 
   private:
-    size_type size_;
+    size_type size_{0};
     const_pointer data_;
 };
 

@@ -11,7 +11,7 @@ class A {
 
 A g_a;
 
-void global_constructor_test(void) {
+void global_constructor_test() {
     A *p_a = &g_a;
     p_a->anything(); // <---- segfault
 }
