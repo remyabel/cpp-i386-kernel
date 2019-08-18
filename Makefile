@@ -34,7 +34,7 @@ iso:
 	grub2-mkrescue -quiet -o myos.iso isodir
 
 qemu:
-	qemu-system-i386 -cdrom myos.iso
+	qemu-system-i386 -serial file:serial.log -cdrom myos.iso
 
 obj/%.o: src/%.nasm
 	$(AS) -felf32 $< -o $@
@@ -46,6 +46,6 @@ obj/tinyprintf.o: src/tinyprintf.c
 	$(CC) $(CCFLAGS) $(OPTS) -c $< -o $@
 
 clean:
-	rm -rf obj/* main myos* isodir/
+	rm -rf obj/* main myos* isodir/ serial.log
 
 -include $(DEP)

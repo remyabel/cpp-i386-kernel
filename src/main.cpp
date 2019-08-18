@@ -7,6 +7,7 @@
 
 #include <Terminal.hpp>
 #include <Terminal_iterator.hpp>
+#include <serial.hpp>
 
 #include <gdt.hpp>
 #include <idt.hpp>
@@ -35,6 +36,8 @@ extern "C" void kernel_main(unsigned long /*magic*/, unsigned long /*addr*/) {
         local_static_variable_test();
     }
     printf("%d\n", local_static_variable_test());
+
+    serial.write('t');
 
     asm volatile("int $0x3");
     asm volatile("int $0x4");

@@ -16,6 +16,7 @@ add_library(cpp_sources OBJECT
             src/global_constructor_test.cpp
             src/pure_virtual.cpp
             src/local_static_variable_test.cpp
+            src/serial.cpp
             src/Terminal.cpp
             src/internal/Terminal_helpers.cpp)
 target_include_directories(cpp_sources PUBLIC include/ include/kstd)
