@@ -3,8 +3,7 @@
 
 #include <stdint.h>
 
-namespace vga {
-namespace internal {
+namespace vga::internal {
 enum class color : uint8_t {
     black = 0,
     blue = 1,
@@ -33,10 +32,14 @@ struct colored_char {
     }
 };
 
-color make_color(color fg, color bg);
+inline color make_color(color fg, color bg) {
+    return static_cast<color>(static_cast<uint8_t>(fg) |
+                              (static_cast<uint8_t>(bg) << 4));
+}
 
-colored_char make_colored_char(char code_byte, color attribute);
-} // namespace internal
+inline colored_char make_colored_char(char code_byte, color attribute) {
+    return {code_byte, attribute};
+}
 } // namespace vga
 
 #endif // TERMINAL_HELPERS_HPP

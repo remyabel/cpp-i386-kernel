@@ -9,7 +9,7 @@ add_executable(cpp-i386-kernel-tests
                ${CMAKE_CURRENT_SOURCE_DIR}/test-algorithm.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/test-basicstringview.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/test-iterator.cpp
-               ${CMAKE_CURRENT_SOURCE_DIR}/test-strlen.cpp
+               ${CMAKE_CURRENT_SOURCE_DIR}/test-string.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/test-array.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/test-chartraits.cpp
                ${CMAKE_CURRENT_SOURCE_DIR}/test-main.cpp

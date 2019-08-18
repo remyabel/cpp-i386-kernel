@@ -8,14 +8,15 @@ TEST_CASE("Terminal color helper functions produce correct values",
     using namespace vga;
 
     SECTION("make color") {
-        REQUIRE(make_color(color::white, color::black) ==
-                static_cast<color>(15 | (0 << 4)));
-        REQUIRE(make_color(color::blue, color::red) ==
-                static_cast<color>(1 | (4 << 4)));
+        REQUIRE(make_color(internal::color::white, internal::color::black) ==
+                static_cast<internal::color>(15 | (0 << 4)));
+        REQUIRE(make_color(internal::color::blue, internal::color::red) ==
+                static_cast<internal::color>(1 | (4 << 4)));
     }
 
     SECTION("make colored char") {
-        REQUIRE(make_colored_char('a', color::white) ==
-                ('a' | static_cast<uint16_t>(color::white) << 8));
+        REQUIRE(static_cast<uint16_t>(
+                    make_colored_char('a', internal::color::white)) ==
+                ('a' | static_cast<uint16_t>(internal::color::white) << 8));
     }
 }

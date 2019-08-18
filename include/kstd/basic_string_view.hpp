@@ -25,7 +25,7 @@ class basic_string_view {
     static constexpr size_type npos = size_type(-1);
 
     // [string.view.cons]
-    constexpr basic_string_view() noexcept :  data_(nullptr) {}
+    constexpr basic_string_view() noexcept : data_(nullptr) {}
 
     constexpr basic_string_view(const basic_string_view &) noexcept = default;
     constexpr basic_string_view &
@@ -39,13 +39,21 @@ class basic_string_view {
 
     // [string.view.iterators]
 
-    [[nodiscard]] constexpr const_iterator begin() const noexcept { return data_; }
+    [[nodiscard]] constexpr const_iterator begin() const noexcept {
+        return data_;
+    }
 
-    [[nodiscard]] constexpr const_iterator cbegin() const noexcept { return begin(); }
+    [[nodiscard]] constexpr const_iterator cbegin() const noexcept {
+        return begin();
+    }
 
-    [[nodiscard]] constexpr const_iterator end() const noexcept { return begin() + size(); }
+    [[nodiscard]] constexpr const_iterator end() const noexcept {
+        return begin() + size();
+    }
 
-    [[nodiscard]] constexpr const_iterator cend() const noexcept { return end(); }
+    [[nodiscard]] constexpr const_iterator cend() const noexcept {
+        return end();
+    }
 
     // [string.view.capacity]
     [[nodiscard]] constexpr size_type size() const noexcept { return size_; }
@@ -67,9 +75,13 @@ class basic_string_view {
 
     [[nodiscard]] constexpr const_reference front() const { return data_[0]; }
 
-    [[nodiscard]] constexpr const_reference back() const { return data_[size() - 1]; }
+    [[nodiscard]] constexpr const_reference back() const {
+        return data_[size() - 1];
+    }
 
-    [[nodiscard]] constexpr const_pointer data() const noexcept { return data_; }
+    [[nodiscard]] constexpr const_pointer data() const noexcept {
+        return data_;
+    }
 
   private:
     size_type size_{0};
