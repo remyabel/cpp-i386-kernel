@@ -8,5 +8,3 @@ Checks: >
   portability-*,
   readability-*,
   -modernize-deprecated-headers
-
-HeaderFilterRegex: '.*'

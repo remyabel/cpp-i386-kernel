@@ -6,6 +6,48 @@ enable_language(ASM_NASM)
 
 set(CMAKE_CXX_STANDARD 17)
 
+find_program(CLANG_TIDY_PROGRAM
+             NAMES "clang-tidy"
+             DOC "Path to clang-tidy executable")
+mark_as_advanced(CLANG_TIDY_PROGRAM)
+if (NOT CLANG_TIDY_PROGRAM)
+    message(STATUS "clang-tidy not found.")
+else()
+    message(
+        STATUS "clang-tidy found: ${CLANG_TIDY_PROGRAM}")
+endif ()
+
+# The set of headers we want to apply clang-tidy to. We are explicit here
+# because it is difficult (if not impossible) to exclude headers with
+# clang-tidy.
+set(headers
+    include/multiboot2.hpp
+    include/gdt.hpp
+    include/isr.hpp
+    include/kstd/algorithm.hpp
+    include/kstd/basic_string_view.hpp
+    include/kstd/string.hpp
+    include/kstd/array.hpp
+    include/kstd/iterator.hpp
+    include/kstd/utilities.hpp
+    include/kstd/char_traits.hpp
+    include/inline_asm.hpp
+    include/serial.hpp
+    include/idt.hpp
+    include/Terminal.hpp
+    include/internal/Terminal_helpers.hpp
+    include/Terminal_iterator.hpp
+    include/string.h)
+list(JOIN headers "|" joined_headers)
+
+function (add_clang_tidy target)
+    if (CLANG_TIDY_PROGRAM)
+        set_target_properties(
+            ${target}
+            PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROGRAM};-header-filter='${joined_headers}'")
+    endif ()
+endfunction ()
+
 # We specify the the libraries as OBJECT libraries so that they are compiled but
 # not linked into archives. This allows us to specify a specific order for the
 # object files later. Also note that it is important that the file list below be
@@ -18,6 +60,7 @@ add_library(cpp_sources OBJECT
             src/local_static_variable_test.cpp
             src/serial.cpp
             src/Terminal.cpp)
+add_clang_tidy(cpp_sources)
 target_include_directories(cpp_sources PUBLIC include/ include/kstd)
 target_compile_options(cpp_sources PRIVATE "-ffreestanding" "-nostdlib" "-O2")
 
