@@ -1,5 +1,5 @@
-if (NOT DEFINED ENV{CROSS_GCC_PREFIX})
-    set(ENV{CROSS_GCC_PREFIX} /usr/local)
+if(NOT DEFINED ENV{CROSS_GCC_PREFIX})
+  set(ENV{CROSS_GCC_PREFIX} /usr/local)
 endif()
 
 set(TRIPLE "i686-elf")

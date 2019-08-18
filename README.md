@@ -55,3 +55,7 @@ cmake --build build-output -- -j4
 ```
 
 Double check that your conan profile uses the correct GCC version.
+
+## Formatting the code
+
+You need `clang-tidy`, `cmake-format`, `clang-format` and [`shellcheck`](https://github.com/koalaman/shellcheck) installed.

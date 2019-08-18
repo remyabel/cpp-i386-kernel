@@ -40,6 +40,6 @@ inline color make_color(color fg, color bg) {
 inline colored_char make_colored_char(char code_byte, color attribute) {
     return {code_byte, attribute};
 }
-} // namespace vga
+} // namespace vga::internal
 
 #endif // TERMINAL_HELPERS_HPP
