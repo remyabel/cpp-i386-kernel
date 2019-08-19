@@ -10,16 +10,15 @@ find_program(CLANG_TIDY_PROGRAM
              NAMES "clang-tidy"
              DOC "Path to clang-tidy executable")
 mark_as_advanced(CLANG_TIDY_PROGRAM)
-if (NOT CLANG_TIDY_PROGRAM)
-    message(STATUS "clang-tidy not found.")
+if(NOT CLANG_TIDY_PROGRAM)
+  message(STATUS "clang-tidy not found.")
 else()
-    message(
-        STATUS "clang-tidy found: ${CLANG_TIDY_PROGRAM}")
-endif ()
+  message(STATUS "clang-tidy found: ${CLANG_TIDY_PROGRAM}")
+endif()
 
 # The set of headers we want to apply clang-tidy to. We are explicit here
-# because it is difficult (if not impossible) to exclude headers with
-# clang-tidy.
+# because it is difficult (if not impossible) to exclude headers with clang-
+# tidy.
 set(headers
     include/multiboot2.hpp
     include/gdt.hpp
@@ -38,15 +37,19 @@ set(headers
     include/internal/Terminal_helpers.hpp
     include/Terminal_iterator.hpp
     include/string.h)
-list(JOIN headers "|" joined_headers)
+list(JOIN
+     headers
+     "|"
+     joined_headers)
 
-function (add_clang_tidy target)
-    if (CLANG_TIDY_PROGRAM)
-        set_target_properties(
-            ${target}
-            PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROGRAM};-header-filter='${joined_headers}'")
-    endif ()
-endfunction ()
+function(add_clang_tidy target)
+  if(CLANG_TIDY_PROGRAM)
+    set_target_properties(
+      ${target}
+      PROPERTIES CXX_CLANG_TIDY
+                 "${CLANG_TIDY_PROGRAM};-header-filter='${joined_headers}'")
+  endif()
+endfunction()
 
 # We specify the the libraries as OBJECT libraries so that they are compiled but
 # not linked into archives. This allows us to specify a specific order for the
