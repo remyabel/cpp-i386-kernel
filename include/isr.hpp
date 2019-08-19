@@ -3,7 +3,6 @@
 
 #include <array.hpp>
 #include <basic_string_view.hpp>
-
 #include <tinyprintf.h>
 
 extern "C" void isr0();

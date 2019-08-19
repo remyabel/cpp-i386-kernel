@@ -1,1 +1,9 @@
 IndentWidth: 4
+IncludeBlocks: Merge
+IncludeCategories:
+- Regex: '^\"'
+  Priority: 1000
+- Regex: '^<.*/.*'
+  Priority: 4000
+- Regex: '^<[^/]*>'
+  Priority: 5000

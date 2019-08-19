@@ -2,12 +2,10 @@
 #define IDT_HPP
 
 #include <array.hpp>
+#include <isr.hpp>
 #include <stddef.h>
 #include <stdint.h>
-
 #include <terminal.hpp>
-
-#include <isr.hpp>
 
 struct idt_entry {
     uint16_t base_low;

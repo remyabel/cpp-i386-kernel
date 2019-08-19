@@ -1,5 +1,4 @@
 #include <catch2/catch.hpp>
-
 #include <char_traits.hpp>
 
 TEST_CASE("char_traits has correct behavior for char", "[char_traits]") {

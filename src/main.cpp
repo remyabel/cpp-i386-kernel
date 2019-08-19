@@ -1,18 +1,14 @@
-#include <stddef.h>
-#include <stdint.h>
-
 #include <algorithm.hpp>
 #include <basic_string_view.hpp>
-#include <string.hpp>
-
-#include <serial.hpp>
-#include <terminal.hpp>
-#include <terminal_iterator.hpp>
-
 #include <gdt.hpp>
 #include <idt.hpp>
-
 #include <multiboot2.hpp>
+#include <serial.hpp>
+#include <stddef.h>
+#include <stdint.h>
+#include <string.hpp>
+#include <terminal.hpp>
+#include <terminal_iterator.hpp>
 
 extern void global_constructor_test();
 extern int local_static_variable_test();

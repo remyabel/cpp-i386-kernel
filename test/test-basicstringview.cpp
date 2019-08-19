@@ -1,5 +1,4 @@
 #include <catch2/catch.hpp>
-
 #include <basic_string_view.hpp>
 #include <iterator.hpp>
 

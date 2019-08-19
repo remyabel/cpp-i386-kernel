@@ -1,18 +1,14 @@
 #ifndef TERMINAL_HPP
 #define TERMINAL_HPP
 
-#include <stddef.h>
-#include <stdint.h>
-
-#include <inline_asm.hpp>
-
+#include <internal/terminal_helpers.hpp>
 #include <algorithm.hpp>
 #include <basic_string_view.hpp>
+#include <inline_asm.hpp>
+#include <stddef.h>
+#include <stdint.h>
 #include <string.hpp>
-
 #include <tinyprintf.h>
-
-#include <internal/terminal_helpers.hpp>
 
 namespace vga {
 struct index_register {
