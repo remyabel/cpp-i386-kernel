@@ -9,7 +9,8 @@ find . \( "${ignore[@]}" \) -prune -o \
        -exec cmake-format -i '{}' \;
 
 find . \( "${ignore[@]}" \) -prune -o \
-    \( -name '*.hpp' -o -name '*.h' \) \
+    \( ! -iname 'tinyprintf*' \) -and \
+    \( -name '*.hpp' -o -name '*.h' -o -name '*.cpp' -o -name '*.c' \) \
     -exec clang-format -i '{}' \;
 
 find . \( "${ignore[@]}" \) -prune -o \
