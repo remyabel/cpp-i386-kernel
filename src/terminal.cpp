@@ -1,4 +1,4 @@
-#include <Terminal.hpp>
+#include <terminal.hpp>
 
 extern "C" void putc(void * /*unused*/, char c) { vga::terminal.put_char(c); }
 

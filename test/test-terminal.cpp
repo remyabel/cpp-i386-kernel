@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
 
-#include <Terminal.hpp>
+#include <terminal.hpp>
 
 TEST_CASE("Terminal color helper functions produce correct values",
           "[terminal.color]") {

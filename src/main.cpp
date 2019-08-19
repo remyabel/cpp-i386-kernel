@@ -5,8 +5,8 @@
 #include <basic_string_view.hpp>
 #include <string.hpp>
 
-#include <Terminal.hpp>
-#include <Terminal_iterator.hpp>
+#include <terminal.hpp>
+#include <terminal_iterator.hpp>
 #include <serial.hpp>
 
 #include <gdt.hpp>

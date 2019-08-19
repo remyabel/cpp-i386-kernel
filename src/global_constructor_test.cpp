@@ -1,4 +1,4 @@
-#include <Terminal.hpp>
+#include <terminal.hpp>
 
 /* This should segfault if global constructors are not
  * handled properly.

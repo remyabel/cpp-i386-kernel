@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <utilities.hpp>
 
-#include <Terminal.hpp>
+#include <terminal.hpp>
 
 namespace vga {
 template <class T, class charT = char, class traits = kstd::char_traits<charT>>

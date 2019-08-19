@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <Terminal.hpp>
+#include <terminal.hpp>
 
 #include <isr.hpp>
 

@@ -33,9 +33,9 @@ set(headers
     include/inline_asm.hpp
     include/serial.hpp
     include/idt.hpp
-    include/Terminal.hpp
-    include/internal/Terminal_helpers.hpp
-    include/Terminal_iterator.hpp
+    include/terminal.hpp
+    include/internal/terminal_helpers.hpp
+    include/terminal_iterator.hpp
     include/string.h)
 list(JOIN
      headers
@@ -62,7 +62,7 @@ add_library(cpp_sources OBJECT
             src/pure_virtual.cpp
             src/local_static_variable_test.cpp
             src/serial.cpp
-            src/Terminal.cpp)
+            src/terminal.cpp)
 add_clang_tidy(cpp_sources)
 target_include_directories(cpp_sources PUBLIC include/ include/kstd)
 target_compile_options(cpp_sources PRIVATE "-ffreestanding" "-nostdlib" "-O2")

@@ -12,7 +12,7 @@
 
 #include <tinyprintf.h>
 
-#include <internal/Terminal_helpers.hpp>
+#include <internal/terminal_helpers.hpp>
 
 namespace vga {
 struct index_register {
