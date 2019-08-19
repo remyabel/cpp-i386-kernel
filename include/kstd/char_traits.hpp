@@ -13,6 +13,7 @@ template <> class char_traits<char> {
     using char_type = char;
     using int_type = int;
 
+    // NOLINTNEXTLINE
     static constexpr void assign(char_type &r, const char_type &a);
     static char_type *assign(char_type *p, size_t count, char_type a);
 

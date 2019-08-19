@@ -7,4 +7,6 @@ Checks: >
   performance-*,
   portability-*,
   readability-*,
-  -modernize-deprecated-headers
+  -modernize-deprecated-headers,
+  -readability-magic-numbers,
+  -misc-non-private-member-variables-in-classes

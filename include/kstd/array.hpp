@@ -18,6 +18,7 @@ template <class T, size_t N> struct array {
     using iterator = pointer;
     using const_iterator = const_pointer;
 
+    // NOLINTNEXTLINE
     value_type elems_[N];
 
     // iterators
