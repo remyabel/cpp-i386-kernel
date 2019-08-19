@@ -34,6 +34,9 @@ iso:
 	grub2-mkrescue -quiet -o myos.iso isodir
 
 qemu:
+	qemu-system-i386 -serial file:serial.log -cdrom myos.iso
+
+qemu-gdb:
 	qemu-system-i386 -serial file:serial.log -s -S -cdrom myos.iso
 
 obj/%.o: src/%.nasm
