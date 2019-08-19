@@ -14,7 +14,7 @@ FILTER_OUT_NASM := obj/crti.o obj/crtn.o
 NASM_SRC := $(shell find src/ -wholename *.nasm)
 NASM_OBJ := $(filter-out $(FILTER_OUT_NASM), $(patsubst src/%, obj/%, $(NASM_SRC:.nasm=.o)))
 
-FILTER_OUT_CPP := obj/main.o obj/Terminal.o
+FILTER_OUT_CPP := obj/main.o obj/terminal.o
 CPP_SRC := $(shell find src/ -wholename *.cpp)
 CPP_OBJ := $(filter-out $(FILTER_OUT_CPP), $(patsubst src/%, obj/%, $(CPP_SRC:.cpp=.o)))
 
@@ -24,7 +24,7 @@ DEP := $(CPP_OBJ:%.o=%.d)
 
 all: main iso qemu
 
-main: $(CRTI_OBJ) $(CRTBEGIN_OBJ) obj/boot.o obj/main.o $(CPP_OBJ) obj/Terminal.o $(NASM_OBJ) obj/tinyprintf.o $(CRTEND_OBJ) $(CRTN_OBJ)
+main: $(CRTI_OBJ) $(CRTBEGIN_OBJ) obj/boot.o obj/main.o $(CPP_OBJ) obj/terminal.o $(NASM_OBJ) obj/tinyprintf.o $(CRTEND_OBJ) $(CRTN_OBJ)
 	$(CXX) -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib $^ -lgcc
 
 iso:
