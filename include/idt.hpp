@@ -1,7 +1,7 @@
 #ifndef IDT_HPP
 #define IDT_HPP
 
-#include <array.hpp>
+#include <kstd/array.hpp>
 #include <isr.hpp>
 #include <stddef.h>
 #include <stdint.h>

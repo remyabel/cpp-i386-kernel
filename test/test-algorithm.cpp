@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include <algorithm.hpp>
+#include <kstd/algorithm.hpp>
 
 TEST_CASE("perform copy", "[copy]") {
     int input[] = {1, 2, 3};

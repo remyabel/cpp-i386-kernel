@@ -1,11 +1,11 @@
 #ifndef TERMINAL_ITERATOR_HPP
 #define TERMINAL_ITERATOR_HPP
 
-#include <char_traits.hpp>
-#include <iterator.hpp>
+#include <kstd/char_traits.hpp>
+#include <kstd/iterator.hpp>
+#include <kstd/utilities.hpp>
 #include <stdint.h>
 #include <terminal.hpp>
-#include <utilities.hpp>
 
 namespace vga {
 template <class T, class charT = char, class traits = kstd::char_traits<charT>>

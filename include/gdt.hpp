@@ -1,7 +1,7 @@
 #ifndef GDT_HPP
 #define GDT_HPP
 
-#include <array.hpp>
+#include <kstd/array.hpp>
 #include <stddef.h>
 #include <stdint.h>
 

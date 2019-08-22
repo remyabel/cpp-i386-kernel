@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include <char_traits.hpp>
+#include <kstd/char_traits.hpp>
 
 TEST_CASE("char_traits has correct behavior for char", "[char_traits]") {
     REQUIRE(kstd::char_traits<char>::eq('a', 'a'));

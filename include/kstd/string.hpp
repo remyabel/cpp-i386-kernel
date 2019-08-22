@@ -6,7 +6,7 @@
 namespace kstd {
 inline namespace v1 {
 
-#include <string.h>
+#include <kstd/string.h>
 
 } // namespace v1
 } // namespace kstd

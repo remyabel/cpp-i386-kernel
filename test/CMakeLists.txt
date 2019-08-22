@@ -16,7 +16,6 @@ add_executable(cpp-i386-kernel-tests
                ${CMAKE_CURRENT_SOURCE_DIR}/test-terminal.cpp)
 target_include_directories(cpp-i386-kernel-tests
                            PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include/
-                                   ${CMAKE_CURRENT_SOURCE_DIR}/../include/kstd/
                                    ${CONAN_INCLUDE_DIRS})
 set_target_properties(cpp-i386-kernel-tests
                       PROPERTIES CXX_STANDARD

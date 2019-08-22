@@ -1,7 +1,7 @@
 #ifndef BASIC_STRING_VIEW_HPP
 #define BASIC_STRING_VIEW_HPP
 
-#include <char_traits.hpp>
+#include <kstd/char_traits.hpp>
 #include <stddef.h>
 
 namespace kstd {

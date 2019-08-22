@@ -64,7 +64,7 @@ add_library(cpp_sources OBJECT
             src/serial.cpp
             src/terminal.cpp)
 add_clang_tidy(cpp_sources)
-target_include_directories(cpp_sources PUBLIC include/ include/kstd)
+target_include_directories(cpp_sources PUBLIC include/)
 target_compile_options(cpp_sources PRIVATE "-ffreestanding" "-nostdlib" "-O2")
 
 add_library(crti OBJECT src/crti.nasm)

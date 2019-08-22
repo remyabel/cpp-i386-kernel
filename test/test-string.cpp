@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include <string.hpp>
+#include <kstd/string.hpp>
 
 TEST_CASE("strlen returns correct values", "[string.strlen]") {
     REQUIRE(kstd::strlen("hello") == 5);

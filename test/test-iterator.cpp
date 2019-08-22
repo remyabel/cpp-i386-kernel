@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
-#include <basic_string_view.hpp>
-#include <iterator.hpp>
+#include <kstd/basic_string_view.hpp>
+#include <kstd/iterator.hpp>
 
 TEST_CASE("iterator operations for random access iterator", "[iterator.rai]") {
     kstd::string_view s{"hello", sizeof("hello")};

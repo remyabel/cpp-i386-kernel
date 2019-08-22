@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
-#include <algorithm.hpp>
-#include <array.hpp>
+#include <kstd/algorithm.hpp>
+#include <kstd/array.hpp>
 
 TEST_CASE("array forms a valid range and works w/ range functions", "[array]") {
     kstd::array<int, 5> arr = {1, 2, 3, 4, 5};

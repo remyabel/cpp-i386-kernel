@@ -1,7 +1,7 @@
 #ifndef ALGORITHM_HPP
 #define ALGORITHM_HPP
 
-#include <iterator.hpp>
+#include <kstd/iterator.hpp>
 #include <stddef.h>
 
 namespace kstd {

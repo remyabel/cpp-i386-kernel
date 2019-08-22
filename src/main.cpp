@@ -1,12 +1,12 @@
-#include <algorithm.hpp>
-#include <basic_string_view.hpp>
+#include <kstd/algorithm.hpp>
+#include <kstd/basic_string_view.hpp>
+#include <kstd/string.hpp>
 #include <gdt.hpp>
 #include <idt.hpp>
 #include <multiboot2.hpp>
 #include <serial.hpp>
 #include <stddef.h>
 #include <stdint.h>
-#include <string.hpp>
 #include <terminal.hpp>
 #include <terminal_iterator.hpp>
 

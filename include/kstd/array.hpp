@@ -1,7 +1,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
-#include <iterator.hpp>
+#include <kstd/iterator.hpp>
 #include <stddef.h>
 
 namespace kstd {
