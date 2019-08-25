@@ -13,7 +13,8 @@
 extern void global_constructor_test();
 extern int local_static_variable_test();
 
-extern "C" void kernel_main(uint64_t /*magic*/, uint64_t /*addr*/) {
+// NOLINTNEXTLINE
+extern "C" void kernel_main(unsigned long magic, unsigned long addr) {
     const Gdt gdt;
     const Idt idt;
 
