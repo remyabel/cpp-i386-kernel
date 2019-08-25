@@ -65,7 +65,7 @@ add_library(cpp_sources OBJECT
             src/terminal.cpp)
 add_clang_tidy(cpp_sources)
 target_include_directories(cpp_sources PUBLIC include/)
-target_compile_options(cpp_sources PRIVATE "-ffreestanding" "-nostdlib" "-O2")
+target_compile_options(cpp_sources PRIVATE "-ffreestanding" "-nostdlib" "-fno-exceptions" "-fno-rtti" "-O2")
 
 add_library(crti OBJECT src/crti.nasm)
 add_library(crtn OBJECT src/crtn.nasm)
@@ -82,7 +82,7 @@ target_compile_options(tinyprintf PRIVATE "-ffreestanding" "-nostdlib" "-O2")
 # the flags at the beginning rather than the end.
 set(
   CMAKE_CXX_LINK_EXECUTABLE
-  "<CMAKE_LINKER> -T ${CMAKE_SOURCE_DIR}/linker.ld -ffreestanding -O2 -nostdlib <FLAGS> <CMAKE_CXX_LINK_FLAGS> <LINK_FLAGS> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>"
+  "<CMAKE_LINKER> -T ${CMAKE_SOURCE_DIR}/linker.ld -ffreestanding -O2 -nostdlib -fno-exceptions -fno-rtti <FLAGS> <CMAKE_CXX_LINK_FLAGS> <LINK_FLAGS> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>"
   )
 
 execute_process(COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=crtbegin.o
