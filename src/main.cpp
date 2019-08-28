@@ -63,12 +63,12 @@ extern "C" void kernel_main(uint32_t magic, uint32_t addr) {
             Multiboot_mmap_iterator sentinel{mmap_tag + mmap_tag->size / sizeof(multiboot_mmap_entry)};
             while (mmap_it != sentinel) {
                 printf(" base_addr = 0x%x%x,"
-                       " length = 0x%x%x, type = 0x%x\n",
-                       (unsigned)(mmap_it->addr >> 32),
-                       (unsigned)(mmap_it->addr & 0xffffffff),
-                       (unsigned)(mmap_it->len >> 32),
-                       (unsigned)(mmap_it->len & 0xffffffff),
-                       (unsigned)mmap_it->type);
+                       " length = 0x%x%x, type = %s\n",
+                       static_cast<uint32_t>(mmap_it->addr >> 32),
+                       static_cast<uint32_t>(mmap_it->addr & 0xffffffff),
+                       static_cast<uint32_t>(mmap_it->len >> 32),
+                       static_cast<uint32_t>(mmap_it->len & 0xffffffff),
+                       kstd::to_string(static_cast<MultibootMemoryType>(mmap_it->type)));
                 ++mmap_it;
             }
         } break;

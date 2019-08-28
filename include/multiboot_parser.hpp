@@ -79,4 +79,30 @@ bool operator==(Multiboot_mmap_iterator lhs, Multiboot_mmap_iterator rhs) {
 bool operator!=(Multiboot_mmap_iterator lhs, Multiboot_mmap_iterator rhs) {
     return !(lhs == rhs);
 }
+
+enum class MultibootMemoryType {
+    Available = MULTIBOOT_MEMORY_AVAILABLE,
+    Reserved = MULTIBOOT_MEMORY_RESERVED,
+    AcpiReclaimable = MULTIBOOT_MEMORY_ACPI_RECLAIMABLE,
+    Nvs = MULTIBOOT_MEMORY_NVS,
+    BadRam = MULTIBOOT_MEMORY_BADRAM
+};
+
+namespace kstd {
+    const char *to_string(MultibootMemoryType type) {
+        switch (type) {
+            case MultibootMemoryType::Available:
+                return "Available";
+            case MultibootMemoryType::Reserved:
+                return "Reserved";
+            case MultibootMemoryType::AcpiReclaimable:
+                return "ACPI Reclaimable";
+            case MultibootMemoryType::Nvs:
+                return "NVS";
+            case MultibootMemoryType::BadRam:
+                return "Bad RAM";
+        }
+        return "Unknown";
+    }
+}
 #endif
