@@ -49,6 +49,7 @@ class Multiboot_mmap_iterator {
 
     explicit Multiboot_mmap_iterator(multiboot_tag_mmap *mmap_tag)
         : entries_(mmap_tag->entries) {}
+    Multiboot_mmap_iterator() = default;
 
     reference operator*() const { return *entries_; }
     pointer operator->() const { return entries_; }
@@ -75,6 +76,10 @@ class Multiboot_mmap_iterator {
     }
     multiboot_memory_map_t *entries_;
 };
+
+bool operator==(multiboot_mmap_entry lhs, multiboot_mmap_entry rhs) {
+    return lhs.addr == rhs.addr && lhs.len == rhs.len && lhs.type == rhs.type;
+}
 
 bool operator==(Multiboot_mmap_iterator lhs, Multiboot_mmap_iterator rhs) {
     return lhs.entries_ == rhs.entries_;
