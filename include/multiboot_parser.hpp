@@ -39,4 +39,44 @@ class Multiboot_tag_iterator {
     multiboot_tag *addr_;
 };
 
+class Multiboot_mmap_iterator {
+  public:
+    using difference_type = ptrdiff_t;
+    using value_type = multiboot_mmap_entry;
+    using pointer = value_type *;
+    using reference = value_type &;
+    using iterator_category = kstd::forward_iterator_tag;
+
+    explicit Multiboot_mmap_iterator(multiboot_tag_mmap *mmap_tag)
+        : entries_(mmap_tag->entries) {}
+
+    reference operator*() const { return *entries_; }
+    pointer operator->() const { return entries_; }
+    Multiboot_mmap_iterator &operator++() {
+        next_entry();
+        return *this;
+    }
+    Multiboot_mmap_iterator operator++(int) {
+        Multiboot_mmap_iterator tmp = *this;
+        next_entry();
+        return tmp;
+    }
+
+    friend bool operator==(Multiboot_mmap_iterator lhs, Multiboot_mmap_iterator rhs);
+    friend bool operator!=(Multiboot_mmap_iterator lhs, Multiboot_mmap_iterator rhs);
+  private:
+    void next_entry() {
+        entries_ = reinterpret_cast<multiboot_memory_map_t *>(
+            reinterpret_cast<unsigned long>(entries_) + sizeof(multiboot_mmap_entry));
+    }
+    multiboot_memory_map_t *entries_;
+};
+
+bool operator==(Multiboot_mmap_iterator lhs, Multiboot_mmap_iterator rhs) {
+    return lhs.entries_ == rhs.entries_;
+}
+
+bool operator!=(Multiboot_mmap_iterator lhs, Multiboot_mmap_iterator rhs) {
+    return !(lhs == rhs);
+}
 #endif

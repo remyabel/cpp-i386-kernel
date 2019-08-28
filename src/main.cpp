@@ -48,17 +48,32 @@ extern "C" void kernel_main(uint32_t magic, uint32_t addr) {
     }
 
     // Add 8 to skip over the size.
-    Multiboot_tag_iterator it{addr + 8};
-    while (it->type != MULTIBOOT_TAG_TYPE_END) {
-        switch (it->type) {
-        case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
+    Multiboot_tag_iterator tag_it{addr + 8};
+    while (tag_it->type != MULTIBOOT_TAG_TYPE_END) {
+        switch (tag_it->type) {
+        case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO: {
             auto meminfo =
-                reinterpret_cast<multiboot_tag_basic_meminfo *>(&*it);
+                reinterpret_cast<multiboot_tag_basic_meminfo *>(&*tag_it);
             printf("mem_lower = %uKB, mem_upper = %uKB\n", meminfo->mem_lower,
                    meminfo->mem_upper);
-            break;
+        } break;
+        case MULTIBOOT_TAG_TYPE_MMAP: {
+            auto mmap_tag = reinterpret_cast<multiboot_tag_mmap *>(&*tag_it);
+            Multiboot_mmap_iterator mmap_it{mmap_tag};
+            Multiboot_mmap_iterator sentinel{mmap_tag + mmap_tag->size / sizeof(multiboot_mmap_entry)};
+            while (mmap_it != sentinel) {
+                printf(" base_addr = 0x%x%x,"
+                       " length = 0x%x%x, type = 0x%x\n",
+                       (unsigned)(mmap_it->addr >> 32),
+                       (unsigned)(mmap_it->addr & 0xffffffff),
+                       (unsigned)(mmap_it->len >> 32),
+                       (unsigned)(mmap_it->len & 0xffffffff),
+                       (unsigned)mmap_it->type);
+                ++mmap_it;
+            }
+        } break;
         }
-        ++it;
+        ++tag_it;
     }
     asm volatile("int $0x3");
     asm volatile("int $0x4");
