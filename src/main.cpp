@@ -60,7 +60,8 @@ extern "C" void kernel_main(uint32_t magic, uint32_t addr) {
         case MULTIBOOT_TAG_TYPE_MMAP: {
             auto mmap_tag = reinterpret_cast<multiboot_tag_mmap *>(&*tag_it);
             Multiboot_mmap_iterator mmap_it{mmap_tag};
-            Multiboot_mmap_iterator sentinel{mmap_tag + mmap_tag->size / sizeof(multiboot_mmap_entry)};
+            Multiboot_mmap_iterator sentinel{
+                mmap_tag + mmap_tag->size / sizeof(multiboot_mmap_entry)};
             while (mmap_it != sentinel) {
                 printf(" base_addr = 0x%x%x,"
                        " length = 0x%x%x, type = %s\n",
@@ -68,7 +69,8 @@ extern "C" void kernel_main(uint32_t magic, uint32_t addr) {
                        static_cast<uint32_t>(mmap_it->addr & 0xffffffff),
                        static_cast<uint32_t>(mmap_it->len >> 32),
                        static_cast<uint32_t>(mmap_it->len & 0xffffffff),
-                       kstd::to_string(static_cast<MultibootMemoryType>(mmap_it->type)));
+                       kstd::to_string(
+                           static_cast<MultibootMemoryType>(mmap_it->type)));
                 ++mmap_it;
             }
         } break;

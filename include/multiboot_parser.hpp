@@ -62,12 +62,16 @@ class Multiboot_mmap_iterator {
         return tmp;
     }
 
-    friend bool operator==(Multiboot_mmap_iterator lhs, Multiboot_mmap_iterator rhs);
-    friend bool operator!=(Multiboot_mmap_iterator lhs, Multiboot_mmap_iterator rhs);
+    friend bool operator==(Multiboot_mmap_iterator lhs,
+                           Multiboot_mmap_iterator rhs);
+    friend bool operator!=(Multiboot_mmap_iterator lhs,
+                           Multiboot_mmap_iterator rhs);
+
   private:
     void next_entry() {
         entries_ = reinterpret_cast<multiboot_memory_map_t *>(
-            reinterpret_cast<unsigned long>(entries_) + sizeof(multiboot_mmap_entry));
+            reinterpret_cast<unsigned long>(entries_) +
+            sizeof(multiboot_mmap_entry));
     }
     multiboot_memory_map_t *entries_;
 };
@@ -89,20 +93,20 @@ enum class MultibootMemoryType {
 };
 
 namespace kstd {
-    const char *to_string(MultibootMemoryType type) {
-        switch (type) {
-            case MultibootMemoryType::Available:
-                return "Available";
-            case MultibootMemoryType::Reserved:
-                return "Reserved";
-            case MultibootMemoryType::AcpiReclaimable:
-                return "ACPI Reclaimable";
-            case MultibootMemoryType::Nvs:
-                return "NVS";
-            case MultibootMemoryType::BadRam:
-                return "Bad RAM";
-        }
-        return "Unknown";
+const char *to_string(MultibootMemoryType type) {
+    switch (type) {
+    case MultibootMemoryType::Available:
+        return "Available";
+    case MultibootMemoryType::Reserved:
+        return "Reserved";
+    case MultibootMemoryType::AcpiReclaimable:
+        return "ACPI Reclaimable";
+    case MultibootMemoryType::Nvs:
+        return "NVS";
+    case MultibootMemoryType::BadRam:
+        return "Bad RAM";
     }
+    return "Unknown";
 }
+} // namespace kstd
 #endif
