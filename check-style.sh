@@ -2,7 +2,7 @@
 
 set -eu
 
-declare -a ignore=( -path ./.git -o -path ./build-output -o -path ./test/build-output )
+declare -a ignore=( -path ./.git -o -path ./build-output -o -path ./test/build-output -o -path ./third-party/libgcov-embedded )
 
 find . \( "${ignore[@]}" \) -prune -o \
        \( -name 'CMakeLists.txt' -o -name '*.cmake' \) \

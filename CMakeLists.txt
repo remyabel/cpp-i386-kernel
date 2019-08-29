@@ -9,8 +9,8 @@ set(CMAKE_CXX_STANDARD 17)
 option(ENABLE_COVERAGE "Enable coverage build." OFF)
 
 if(ENABLE_COVERAGE)
-    message(WARNING "The coverage build is currently not functional. Disabling.")
-    set(ENABLE_COVERAGE OFF)
+  message(WARNING "The coverage build is currently not functional. Disabling.")
+  set(ENABLE_COVERAGE OFF)
 endif()
 
 find_program(CLANG_TIDY_PROGRAM
@@ -60,12 +60,11 @@ endfunction()
 
 function(add_coverage_flags target)
   if(ENABLE_COVERAGE)
-      message("Setting build type to Debug. Coverage works better with Debug flags.")
-      set(CMAKE_BUILD_TYPE Debug)
-      target_compile_options(${target}
-          PRIVATE
-          --coverage)
-      target_link_options(${target} PRIVATE --coverage)
+    message(
+      "Setting build type to Debug. Coverage works better with Debug flags.")
+    set(CMAKE_BUILD_TYPE Debug)
+    target_compile_options(${target} PRIVATE --coverage)
+    target_link_options(${target} PRIVATE --coverage)
   endif()
 endfunction()
 
@@ -83,9 +82,11 @@ add_library(cpp_sources OBJECT
             src/terminal.cpp)
 add_clang_tidy(cpp_sources)
 add_coverage_flags(cpp_sources)
-target_include_directories(cpp_sources PUBLIC include/ third-party/libgcov-embedded/port/src/)
+target_include_directories(cpp_sources
+                           PUBLIC include/
+                                  third-party/libgcov-embedded/port/src/)
 if(ENABLE_COVERAGE)
-    target_compile_definitions(cpp_sources PRIVATE "ENABLE_LIBGCOV_PORT=1")
+  target_compile_definitions(cpp_sources PRIVATE "ENABLE_LIBGCOV_PORT=1")
 endif()
 target_compile_options(cpp_sources
                        PRIVATE "-ffreestanding"
@@ -136,7 +137,7 @@ set_source_files_properties(${CRTEND}
                             true)
 
 if(ENABLE_COVERAGE)
-    add_subdirectory(third-party)
+  add_subdirectory(third-party)
 endif()
 # As stated previously, the order of these should not change.
 add_executable(kernel
@@ -147,9 +148,9 @@ add_executable(kernel
                $<TARGET_OBJECTS:asm_sources>
                $<TARGET_OBJECTS:tinyprintf>
                $<$<BOOL:${ENABLE_COVERAGE}>:
-                   $<TARGET_OBJECTS:libgcov_src>
-                   $<TARGET_OBJECTS:libgcov_libgcc>
-                   $<TARGET_OBJECTS:libgcov_gcc>>
+               $<TARGET_OBJECTS:libgcov_src>
+               $<TARGET_OBJECTS:libgcov_libgcc>
+               $<TARGET_OBJECTS:libgcov_gcc>>
                ${CRTEND}
                $<TARGET_OBJECTS:crtn>)
 target_link_libraries(kernel PUBLIC gcc $<$<BOOL:${ENABLE_COVERAGE}>:gcov>)
