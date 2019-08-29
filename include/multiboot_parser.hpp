@@ -77,6 +77,31 @@ class Multiboot_mmap_iterator {
     multiboot_memory_map_t *entries_;
 };
 
+/**
+ * The safest way to obtain a range over the memory map is to use this
+ * class. The multiboot memory map tag contains the size of the tag, but
+ * not the size of the memory map entries. Thus one needs to use the size
+ * of the tag as the end of the range. However since a
+ * Multiboot_mmap_iterator encapsulates the entries and not the tag
+ * itself, we need to subtract the size of the other tag's fields to avoid
+ * an off-by-one error. This class takes care of that calculation.
+ */
+class Multiboot_mmap_range {
+  public:
+    Multiboot_mmap_range(multiboot_tag_mmap *tag)
+        : begin_(tag), end_(reinterpret_cast<multiboot_tag_mmap *>(
+                           reinterpret_cast<multiboot_uint8_t *>(tag) +
+                           tag->size - sizeof(multiboot_uint32_t) * 4)) {}
+
+    Multiboot_mmap_iterator begin() const { return begin_; }
+
+    Multiboot_mmap_iterator end() const { return end_; }
+
+  private:
+    Multiboot_mmap_iterator begin_;
+    Multiboot_mmap_iterator end_;
+};
+
 bool operator==(multiboot_mmap_entry lhs, multiboot_mmap_entry rhs) {
     return lhs.addr == rhs.addr && lhs.len == rhs.len && lhs.type == rhs.type;
 }

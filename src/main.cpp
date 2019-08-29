@@ -59,10 +59,9 @@ extern "C" void kernel_main(uint32_t magic, uint32_t addr) {
         } break;
         case MULTIBOOT_TAG_TYPE_MMAP: {
             auto mmap_tag = reinterpret_cast<multiboot_tag_mmap *>(&*tag_it);
-            Multiboot_mmap_iterator mmap_it{mmap_tag};
-            Multiboot_mmap_iterator sentinel{
-                mmap_tag + mmap_tag->size / sizeof(multiboot_mmap_entry)};
-            while (mmap_it != sentinel) {
+            Multiboot_mmap_range mmap_range(mmap_tag);
+            auto mmap_it = mmap_range.begin();
+            while (mmap_it != mmap_range.end()) {
                 printf(" base_addr = 0x%x%x,"
                        " length = 0x%x%x, type = %s\n",
                        static_cast<uint32_t>(mmap_it->addr >> 32),

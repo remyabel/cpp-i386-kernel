@@ -1,5 +1,6 @@
 #include <catch2/catch.hpp>
 #include <kstd/array.hpp>
+#include <cstdlib>
 #include <multiboot2.hpp>
 #include <multiboot_parser.hpp>
 
@@ -31,17 +32,41 @@ TEST_CASE("Multiboot_map_iterator can iterate over the memory map",
         multiboot_mmap_entry{
             0x12345678, 1, static_cast<uint32_t>(MultibootMemoryType::Reserved),
             0}};
-    multiboot_tag_mmap fake_mmap_tag{MULTIBOOT_TAG_TYPE_MMAP,
-                                     sizeof(multiboot_tag_mmap) +
-                                         sizeof(fake_mmap_entries),
-                                     sizeof(multiboot_mmap_entry), 0};
-    Multiboot_mmap_iterator test{&fake_mmap_tag};
-    Multiboot_mmap_iterator sentinel{
-        &fake_mmap_tag + fake_mmap_tag.size / sizeof(multiboot_mmap_entry)};
+
+    // We use malloc to initialize the zero sized array.
+    multiboot_tag_mmap *fake_mmap_tag = (multiboot_tag_mmap *)malloc(
+        sizeof(multiboot_tag_mmap) +
+        fake_mmap_entries.size() * sizeof(multiboot_mmap_entry));
+    fake_mmap_tag->type = MULTIBOOT_TAG_TYPE_MMAP;
+    fake_mmap_tag->size =
+        sizeof(multiboot_tag_mmap) +
+        fake_mmap_entries.size() * sizeof(multiboot_mmap_entry);
+    fake_mmap_tag->entry_size = sizeof(multiboot_mmap_entry);
+    fake_mmap_tag->entry_version = 0;
+
+    for (size_t i = 0u; i < fake_mmap_entries.size(); ++i) {
+        fake_mmap_tag->entries[i] = fake_mmap_entries[i];
+    }
+
+    Multiboot_mmap_iterator test{fake_mmap_tag};
+    Multiboot_mmap_iterator sentinel{reinterpret_cast<multiboot_tag_mmap *>(
+        reinterpret_cast<multiboot_uint8_t *>(fake_mmap_tag) +
+        fake_mmap_tag->size - sizeof(multiboot_uint32_t) * 4)};
     REQUIRE(test != sentinel);
     REQUIRE(*test == fake_mmap_entries[0]);
     ++test;
     REQUIRE(test != sentinel);
     REQUIRE(*test == fake_mmap_entries[1]);
     ++test;
+    REQUIRE(test == sentinel);
+
+    Multiboot_mmap_range mmap_range{fake_mmap_tag};
+    auto mmap_it = mmap_range.begin();
+    REQUIRE(mmap_it != sentinel);
+    REQUIRE(*mmap_it == fake_mmap_entries[0]);
+    ++mmap_it;
+    REQUIRE(mmap_it != sentinel);
+    REQUIRE(*mmap_it == fake_mmap_entries[1]);
+    ++mmap_it;
+    REQUIRE(mmap_it == sentinel);
 }
