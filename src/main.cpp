@@ -11,6 +11,10 @@
 #include <terminal.hpp>
 #include <terminal_iterator.hpp>
 
+#ifdef ENABLE_LIBGCOV_PORT
+#include <libgcov-embedded.h>
+#endif
+
 extern void global_constructor_test();
 extern int local_static_variable_test();
 
@@ -18,6 +22,10 @@ extern int local_static_variable_test();
 extern "C" void kernel_main(uint32_t magic, uint32_t addr) {
     const Gdt gdt;
     const Idt idt;
+
+#ifdef ENABLE_LIBGCOV_PORT
+    static_init();
+#endif
 
     kstd::string_view s{"Initialized GDT"};
     kstd::copy(s.begin(), s.end(),

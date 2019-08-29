@@ -8,6 +8,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 option(ENABLE_COVERAGE "Enable coverage build." OFF)
 
+if(ENABLE_COVERAGE)
+    message(WARNING "The coverage build is currently not functional. Disabling.")
+    set(ENABLE_COVERAGE OFF)
+endif()
+
 find_program(CLANG_TIDY_PROGRAM
              NAMES "clang-tidy"
              DOC "Path to clang-tidy executable")
@@ -78,7 +83,10 @@ add_library(cpp_sources OBJECT
             src/terminal.cpp)
 add_clang_tidy(cpp_sources)
 add_coverage_flags(cpp_sources)
-target_include_directories(cpp_sources PUBLIC include/)
+target_include_directories(cpp_sources PUBLIC include/ third-party/libgcov-embedded/port/src/)
+if(ENABLE_COVERAGE)
+    target_compile_definitions(cpp_sources PRIVATE "ENABLE_LIBGCOV_PORT=1")
+endif()
 target_compile_options(cpp_sources
                        PRIVATE "-ffreestanding"
                                "-nostdlib"
@@ -127,6 +135,9 @@ set_source_files_properties(${CRTEND}
                             GENERATED
                             true)
 
+if(ENABLE_COVERAGE)
+    add_subdirectory(third-party)
+endif()
 # As stated previously, the order of these should not change.
 add_executable(kernel
                $<TARGET_OBJECTS:crti>
@@ -135,9 +146,13 @@ add_executable(kernel
                $<TARGET_OBJECTS:cpp_sources>
                $<TARGET_OBJECTS:asm_sources>
                $<TARGET_OBJECTS:tinyprintf>
+               $<$<BOOL:${ENABLE_COVERAGE}>:
+                   $<TARGET_OBJECTS:libgcov_src>
+                   $<TARGET_OBJECTS:libgcov_libgcc>
+                   $<TARGET_OBJECTS:libgcov_gcc>>
                ${CRTEND}
                $<TARGET_OBJECTS:crtn>)
-target_link_libraries(kernel PUBLIC gcc gcov)
+target_link_libraries(kernel PUBLIC gcc $<$<BOOL:${ENABLE_COVERAGE}>:gcov>)
 
 # make iso expects the output binary to be in this directory with this name.
 set_target_properties(kernel

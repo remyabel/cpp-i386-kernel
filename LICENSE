@@ -1,6 +1,9 @@
 MIT License
 
-Copyright (c) 2017 Tommy Nguyen
+cpp-i386-kernel
+Copyright (c) 2017-2019 Tommy Nguyen
+libgcov-embedded
+Copyright (c) 2016 Reetesh Ranjan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
