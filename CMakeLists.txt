@@ -6,6 +6,8 @@ enable_language(ASM_NASM)
 
 set(CMAKE_CXX_STANDARD 17)
 
+option(ENABLE_COVERAGE "Enable coverage build." OFF)
+
 find_program(CLANG_TIDY_PROGRAM
              NAMES "clang-tidy"
              DOC "Path to clang-tidy executable")
@@ -51,6 +53,17 @@ function(add_clang_tidy target)
   endif()
 endfunction()
 
+function(add_coverage_flags target)
+  if(ENABLE_COVERAGE)
+      message("Setting build type to Debug. Coverage works better with Debug flags.")
+      set(CMAKE_BUILD_TYPE Debug)
+      target_compile_options(${target}
+          PRIVATE
+          --coverage)
+      target_link_options(${target} PRIVATE --coverage)
+  endif()
+endfunction()
+
 # We specify the the libraries as OBJECT libraries so that they are compiled but
 # not linked into archives. This allows us to specify a specific order for the
 # object files later. Also note that it is important that the file list below be
@@ -64,13 +77,13 @@ add_library(cpp_sources OBJECT
             src/serial.cpp
             src/terminal.cpp)
 add_clang_tidy(cpp_sources)
+add_coverage_flags(cpp_sources)
 target_include_directories(cpp_sources PUBLIC include/)
 target_compile_options(cpp_sources
                        PRIVATE "-ffreestanding"
                                "-nostdlib"
                                "-fno-exceptions"
-                               "-fno-rtti"
-                               "-O2")
+                               "-fno-rtti")
 
 add_library(crti OBJECT src/crti.nasm)
 add_library(crtn OBJECT src/crtn.nasm)
@@ -81,13 +94,13 @@ add_library(asm_sources OBJECT src/isr.nasm src/descriptor.nasm)
 add_library(tinyprintf OBJECT src/tinyprintf.c)
 target_include_directories(tinyprintf PUBLIC include/)
 set_target_properties(tinyprintf PROPERTIES LINKER_LANGUAGE C)
-target_compile_options(tinyprintf PRIVATE "-ffreestanding" "-nostdlib" "-O2")
+target_compile_options(tinyprintf PRIVATE "-ffreestanding" "-nostdlib")
 
 # This is probably unnecessary. But for now, it's convenient to allow us to put
 # the flags at the beginning rather than the end.
 set(
   CMAKE_CXX_LINK_EXECUTABLE
-  "<CMAKE_LINKER> -T ${CMAKE_SOURCE_DIR}/linker.ld -ffreestanding -O2 -nostdlib -fno-exceptions -fno-rtti <FLAGS> <CMAKE_CXX_LINK_FLAGS> <LINK_FLAGS> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>"
+  "<CMAKE_LINKER> -T ${CMAKE_SOURCE_DIR}/linker.ld --coverage -ffreestanding -nostdlib -fno-exceptions -fno-rtti <FLAGS> <CMAKE_CXX_LINK_FLAGS> <LINK_FLAGS> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>"
   )
 
 execute_process(COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=crtbegin.o
@@ -124,7 +137,7 @@ add_executable(kernel
                $<TARGET_OBJECTS:tinyprintf>
                ${CRTEND}
                $<TARGET_OBJECTS:crtn>)
-target_link_libraries(kernel PUBLIC gcc)
+target_link_libraries(kernel PUBLIC gcc gcov)
 
 # make iso expects the output binary to be in this directory with this name.
 set_target_properties(kernel
