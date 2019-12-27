@@ -28,6 +28,9 @@ extern kernel_main
 extern _init
 extern _fini
 
+extern boot_page_directory
+extern early_main
+
 _start:
     mov esp, stack_end
 
@@ -35,6 +38,15 @@ _start:
     push eax
 
     call _init
+
+    call early_main
+
+    mov ecx, boot_page_directory
+    mov cr3, ecx
+
+    mov ecx, cr0
+    or ecx, 0x80000001
+    mov cr0, ecx
 
     call kernel_main
 

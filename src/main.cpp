@@ -1,3 +1,4 @@
+#include <kstd/array.hpp>
 #include <kstd/algorithm.hpp>
 #include <kstd/basic_string_view.hpp>
 #include <kstd/string.hpp>
@@ -5,6 +6,7 @@
 #include <idt.hpp>
 #include <multiboot2.hpp>
 #include <multiboot_parser.hpp>
+#include <paging.hpp>
 #include <serial.hpp>
 #include <stddef.h>
 #include <stdint.h>
@@ -17,6 +19,25 @@
 
 extern void global_constructor_test();
 extern int local_static_variable_test();
+
+typedef uint32_t page_directory_entry;
+typedef uint32_t page_table_entry;
+
+alignas(4096) kstd::array<page_directory_entry, 1024> boot_page_directory;
+alignas(4096) kstd::array<page_table_entry, 1024> boot_page_table;
+
+extern "C" void early_main() {
+    auto addr = 0;
+    for (auto i = 0u; i < boot_page_table.size(); ++i) {
+        boot_page_table[i] = addr | 3;
+        addr += 4096;
+    }
+    boot_page_directory[0] = reinterpret_cast<uint32_t>(&boot_page_table) | 3;
+
+    for (auto i = 1; i < boot_page_directory.size() - 1; ++i) {
+        boot_page_directory[1] = page_directory_entry{};
+    }
+}
 
 // NOLINTNEXTLINE
 extern "C" void kernel_main(uint32_t magic, uint32_t addr) {
