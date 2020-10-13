@@ -9,4 +9,5 @@ Checks: >
   readability-*,
   -modernize-deprecated-headers,
   -readability-magic-numbers,
-  -misc-non-private-member-variables-in-classes
+  -misc-non-private-member-variables-in-classes,
+  -modernize-use-trailing-return-type

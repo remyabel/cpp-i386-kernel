@@ -1,5 +1,5 @@
-#include <kstd/array.hpp>
 #include <kstd/algorithm.hpp>
+#include <kstd/array.hpp>
 #include <kstd/basic_string_view.hpp>
 #include <kstd/string.hpp>
 #include <gdt.hpp>
@@ -20,19 +20,20 @@
 extern void global_constructor_test();
 extern int local_static_variable_test();
 
-typedef uint32_t page_directory_entry;
-typedef uint32_t page_table_entry;
+using page_directory_entry = uint32_t;
+using page_table_entry = uint32_t;
 
 alignas(4096) kstd::array<page_directory_entry, 1024> boot_page_directory;
 alignas(4096) kstd::array<page_table_entry, 1024> boot_page_table;
 
 extern "C" void early_main() {
     auto addr = 0;
+    // NOLINTNEXTLINE
     for (auto i = 0u; i < boot_page_table.size(); ++i) {
         boot_page_table[i] = addr | 3;
         addr += 4096;
     }
-    boot_page_directory[0] = reinterpret_cast<uint32_t>(&boot_page_table) | 3;
+    boot_page_directory[0] = reinterpret_cast<uintptr_t>(&boot_page_table) | 3;
 
     for (auto i = 1; i < boot_page_directory.size() - 1; ++i) {
         boot_page_directory[1] = page_directory_entry{};
@@ -81,13 +82,13 @@ extern "C" void kernel_main(uint32_t magic, uint32_t addr) {
     while (tag_it->type != MULTIBOOT_TAG_TYPE_END) {
         switch (tag_it->type) {
         case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO: {
-            auto meminfo =
+            auto *meminfo =
                 reinterpret_cast<multiboot_tag_basic_meminfo *>(&*tag_it);
             printf("mem_lower = %uKB, mem_upper = %uKB\n", meminfo->mem_lower,
                    meminfo->mem_upper);
         } break;
         case MULTIBOOT_TAG_TYPE_MMAP: {
-            auto mmap_tag = reinterpret_cast<multiboot_tag_mmap *>(&*tag_it);
+            auto *mmap_tag = reinterpret_cast<multiboot_tag_mmap *>(&*tag_it);
             Multiboot_mmap_range mmap_range(mmap_tag);
             auto mmap_it = mmap_range.begin();
             while (mmap_it != mmap_range.end()) {

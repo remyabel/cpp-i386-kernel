@@ -35,6 +35,7 @@ Serial::Serial() {
     outb(Serial::COM1 + modem_control_register, 0b1011);
 }
 
+// NOLINTNEXTLINE
 char Serial::read() {
     // Bit 0 indicates Data Ready. Loop until there's data to be read.
     while ((inb(Serial::COM1 + line_status_register) & 1) == 0) {
@@ -44,6 +45,7 @@ char Serial::read() {
     return inb(Serial::COM1);
 }
 
+// NOLINTNEXTLINE
 void Serial::write(char c) {
     // Bit 5 corresponds to Transmitter Holding Register Empty. When this is set
     // a new word can be written to the Transmitter Holding Register.

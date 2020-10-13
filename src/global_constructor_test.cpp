@@ -6,6 +6,7 @@
 class A {
   public:
     A() { printf("A()\n"); }
+    // NOLINTNEXTLINE
     void anything() { printf("No crash. Global constructors work.\n"); }
 };
 
