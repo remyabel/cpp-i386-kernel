@@ -29,13 +29,13 @@ alignas(4096) kstd::array<page_table_entry, 1024> boot_page_table;
 extern "C" void early_main() {
     auto addr = 0;
     // NOLINTNEXTLINE
-    for (auto i = 0u; i < boot_page_table.size(); ++i) {
+    for (auto i = 0U; i < boot_page_table.size(); ++i) {
         boot_page_table[i] = addr | 3;
         addr += 4096;
     }
     boot_page_directory[0] = reinterpret_cast<uintptr_t>(&boot_page_table) | 3;
 
-    for (auto i = 1; i < boot_page_directory.size() - 1; ++i) {
+    for (auto i = 1U; i < boot_page_directory.size() - 1; ++i) {
         boot_page_directory[1] = page_directory_entry{};
     }
 }
@@ -68,12 +68,12 @@ extern "C" void kernel_main(uint32_t magic, uint32_t addr) {
     serial.write('t');
 
     if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
-        printf("Invalid magic number. Found 0x%x but expected 0x%x\n", magic,
+        printf("Invalid magic number. Found 0x%lx but expected 0x%x\n", magic,
                MULTIBOOT2_BOOTLOADER_MAGIC);
         return;
     }
     if ((addr & 7) != 0U) {
-        printf("Unaligned mbi: 0x%x\n", addr);
+        printf("Unaligned mbi: 0x%lx\n", addr);
         return;
     }
 
@@ -92,8 +92,8 @@ extern "C" void kernel_main(uint32_t magic, uint32_t addr) {
             Multiboot_mmap_range mmap_range(mmap_tag);
             auto mmap_it = mmap_range.begin();
             while (mmap_it != mmap_range.end()) {
-                printf(" base_addr = 0x%x%x,"
-                       " length = 0x%x%x, type = %s\n",
+                printf(" base_addr = 0x%lx%lx,"
+                       " length = 0x%lx%lx, type = %s\n",
                        static_cast<uint32_t>(mmap_it->addr >> 32),
                        static_cast<uint32_t>(mmap_it->addr & 0xffffffff),
                        static_cast<uint32_t>(mmap_it->len >> 32),

@@ -19,7 +19,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Change sys/types.h to stddef.h remyabel, 25.04.2017
 Change tfp_printf prototype to const char* instead of char*
+Ignore warnings remyabel, 13.10.2020
 */
+
+#pragma GCC diagnostic push
+
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wpedantic"
+#pragma GCC diagnostic ignored "-Woverflow"
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough="
 
 #include "tinyprintf.h"
 
@@ -521,3 +529,5 @@ int tfp_sprintf(char *str, const char *format, ...)
   return retval;
 }
 #endif
+
+#pragma GCC diagnostic pop

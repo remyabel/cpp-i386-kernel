@@ -20,8 +20,14 @@
  * SOFTWARE.
  */
 
+
 #ifndef MULTIBOOT_HEADER
 #define MULTIBOOT_HEADER 1
+
+#pragma GCC diagnostic push
+
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wpedantic"
 
 /*  How many bytes from the start of the file we search for the header. */
 #define MULTIBOOT_SEARCH 32768
@@ -375,6 +381,8 @@ struct multiboot_tag_load_base_addr {
     multiboot_uint32_t size;
     multiboot_uint32_t load_base_addr;
 };
+
+#pragma GCC diagnostic pop
 
 #endif /*  ! ASM_FILE */
 

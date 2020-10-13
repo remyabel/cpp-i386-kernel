@@ -6,7 +6,7 @@ namespace __cxxabiv1 {
 /* guard variables */
 
 /* The ABI requires a 64-bit type.  */
-__extension__ using __guard = long __attribute__((mode(__DI__)));
+__extension__ using __guard = long __attribute__((mode(__DI__))); // NOLINT
 
 void set_initialized(__guard *g) { *reinterpret_cast<char *>(g) = 1; }
 
