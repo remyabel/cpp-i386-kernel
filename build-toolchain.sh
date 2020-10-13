@@ -1,7 +1,7 @@
 #!/bin/bash
 
-readonly GCC_VERSION=9.1.0
-readonly BINUTILS_VERSION=2.31
+readonly GCC_VERSION=10.2.0
+readonly BINUTILS_VERSION=2.35
 
 mkdir -p /tmp/toolchain && cd /tmp/toolchain || exit
 
