@@ -1,7 +1,7 @@
 CXX = i686-elf-g++
 CC = i686-elf-gcc
 AS = nasm
-CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti
+CXXFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding -fno-exceptions -fno-rtti -std=c++17
 CCFLAGS = -Wall -Wextra -O2 -pedantic -ffreestanding
 OPTS = -MD -MP -Iinclude -Iinclude/kstd
 
