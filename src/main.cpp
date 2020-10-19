@@ -36,7 +36,7 @@ extern "C" void early_main() {
     boot_page_directory[0] = reinterpret_cast<uintptr_t>(&boot_page_table) | 3;
 
     for (auto i = 1U; i < boot_page_directory.size() - 1; ++i) {
-        boot_page_directory[1] = page_directory_entry{};
+        boot_page_directory[i] = page_directory_entry{};
     }
 }
 
